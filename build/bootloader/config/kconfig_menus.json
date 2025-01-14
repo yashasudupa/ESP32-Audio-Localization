@@ -2513,16 +2513,6 @@
         "children": [],
         "depends_on": null,
         "help": null,
-        "id": "SOC_TOUCH_SUPPORT_DENOISE_CHAN",
-        "name": "SOC_TOUCH_SUPPORT_DENOISE_CHAN",
-        "range": null,
-        "title": null,
-        "type": "bool"
-    },
-    {
-        "children": [],
-        "depends_on": null,
-        "help": null,
         "id": "SOC_TOUCH_PROXIMITY_CHANNEL_NUM",
         "name": "SOC_TOUCH_PROXIMITY_CHANNEL_NUM",
         "range": null,
@@ -3105,16 +3095,6 @@
         "help": null,
         "id": "SOC_CLK_XTAL32K_SUPPORTED",
         "name": "SOC_CLK_XTAL32K_SUPPORTED",
-        "range": null,
-        "title": null,
-        "type": "bool"
-    },
-    {
-        "children": [],
-        "depends_on": null,
-        "help": null,
-        "id": "SOC_CLK_LP_FAST_SUPPORT_XTAL_D2",
-        "name": "SOC_CLK_LP_FAST_SUPPORT_XTAL_D2",
         "range": null,
         "title": null,
         "type": "bool"
@@ -4091,95 +4071,6 @@
                 "type": "menu"
             },
             {
-                "children": [
-                    {
-                        "children": [
-                            {
-                                "children": [
-                                    {
-                                        "children": [],
-                                        "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                        "help": "The secure version is the sequence number stored in the header of each firmware.\nThe security version is set in the bootloader, version is recorded in the eFuse field\nas the number of set ones. The allocated number of bits in the efuse field\nfor storing the security version is limited (see BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD option).\n\nBootloader: When bootloader selects an app to boot, an app is selected that has\na security version greater or equal that recorded in eFuse field.\nThe app is booted with a higher (or equal) secure version.\n\nThe security version is worth increasing if in previous versions there is\na significant vulnerability and their use is not acceptable.\n\nYour partition table should has a scheme with ota_0 + ota_1 (without factory).",
-                                        "id": "BOOTLOADER_APP_SECURE_VERSION",
-                                        "name": "BOOTLOADER_APP_SECURE_VERSION",
-                                        "range": null,
-                                        "title": "eFuse secure version of app",
-                                        "type": "int"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                        "help": "The size of the efuse secure version field.\nIts length is limited to 32 bits for ESP32 and 16 bits for ESP32-S2.\nThis determines how many times the security version can be increased.",
-                                        "id": "BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD",
-                                        "name": "BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD",
-                                        "range": null,
-                                        "title": "Size of the efuse secure version field",
-                                        "type": "int"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                        "help": "This option allows to emulate read/write operations with all eFuses and efuse secure version.\nIt allows to test anti-rollback implementation without permanent write eFuse bits.\nThere should be an entry in partition table with following details: `emul_efuse, data, efuse, , 0x2000`.\n\nThis option enables: EFUSE_VIRTUAL and EFUSE_VIRTUAL_KEEP_IN_FLASH.",
-                                        "id": "BOOTLOADER_EFUSE_SECURE_VERSION_EMULATE",
-                                        "name": "BOOTLOADER_EFUSE_SECURE_VERSION_EMULATE",
-                                        "range": null,
-                                        "title": "Emulate operations with efuse secure version(only test)",
-                                        "type": "bool"
-                                    }
-                                ],
-                                "depends_on": "BOOTLOADER_APP_ROLLBACK_ENABLE",
-                                "help": "This option prevents rollback to previous firmware/application image with lower security version.",
-                                "id": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                "name": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                "range": null,
-                                "title": "Enable app anti-rollback support",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": null,
-                        "help": "After updating the app, the bootloader runs a new app with the \"ESP_OTA_IMG_PENDING_VERIFY\" state set.\nThis state prevents the re-run of this app. After the first boot of the new app in the user code, the\nfunction should be called to confirm the operability of the app or vice versa about its non-operability.\nIf the app is working, then it is marked as valid. Otherwise, it is marked as not valid and rolls back to\nthe previous working app. A reboot is performed, and the app is booted before the software update.\nNote: If during the first boot a new app the power goes out or the WDT works, then roll back will happen.\nRollback is possible only between the apps with the same security versions.",
-                        "id": "BOOTLOADER_APP_ROLLBACK_ENABLE",
-                        "name": "BOOTLOADER_APP_ROLLBACK_ENABLE",
-                        "range": null,
-                        "title": "Enable app rollback support",
-                        "type": "bool"
-                    }
-                ],
-                "depends_on": null,
-                "id": "bootloader-config-application-rollback",
-                "title": "Application Rollback",
-                "type": "menu"
-            },
-            {
-                "children": [
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "BOOTLOADER_ANTI_ROLLBACK_ENABLE",
-                                "help": "The secure version is the sequence number stored in the header of each bootloader.\n\nThe ROM Bootloader which runs the 2nd stage bootloader (PRIMARY or RECOVERY) checks that\nthe security version is greater or equal that recorded in the eFuse field.\nBootloaders that have a secure version in the image < secure version in efuse will not boot.\n\nThe security version is worth increasing if in previous versions there is\na significant vulnerability and their use is not acceptable.",
-                                "id": "BOOTLOADER_SECURE_VERSION",
-                                "name": "BOOTLOADER_SECURE_VERSION",
-                                "range": null,
-                                "title": "Secure version of bootloader",
-                                "type": "int"
-                            }
-                        ],
-                        "depends_on": "SOC_RECOVERY_BOOTLOADER_SUPPORTED",
-                        "help": "This option prevents rollback to previous bootloader image with lower security version.",
-                        "id": "BOOTLOADER_ANTI_ROLLBACK_ENABLE",
-                        "name": "BOOTLOADER_ANTI_ROLLBACK_ENABLE",
-                        "range": null,
-                        "title": "Enable bootloader rollback support",
-                        "type": "bool"
-                    }
-                ],
-                "depends_on": null,
-                "id": "bootloader-config-bootloader-rollback",
-                "title": "Bootloader Rollback",
-                "type": "menu"
-            },
-            {
                 "children": [],
                 "depends_on": null,
                 "help": "Offset address that 2nd bootloader will be flashed to.\nThe value is determined by the ROM bootloader.\nIt's not configurable in ESP-IDF.",
@@ -4677,6 +4568,58 @@
                 "name": "BOOTLOADER_WDT_ENABLE",
                 "range": null,
                 "title": "Use RTC watchdog in start code",
+                "type": "bool"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                                "help": "The secure version is the sequence number stored in the header of each firmware.\nThe security version is set in the bootloader, version is recorded in the eFuse field\nas the number of set ones. The allocated number of bits in the efuse field\nfor storing the security version is limited (see BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD option).\n\nBootloader: When bootloader selects an app to boot, an app is selected that has\na security version greater or equal that recorded in eFuse field.\nThe app is booted with a higher (or equal) secure version.\n\nThe security version is worth increasing if in previous versions there is\na significant vulnerability and their use is not acceptable.\n\nYour partition table should has a scheme with ota_0 + ota_1 (without factory).",
+                                "id": "BOOTLOADER_APP_SECURE_VERSION",
+                                "name": "BOOTLOADER_APP_SECURE_VERSION",
+                                "range": null,
+                                "title": "eFuse secure version of app",
+                                "type": "int"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                                "help": "The size of the efuse secure version field.\nIts length is limited to 32 bits for ESP32 and 16 bits for ESP32-S2.\nThis determines how many times the security version can be increased.",
+                                "id": "BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD",
+                                "name": "BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD",
+                                "range": null,
+                                "title": "Size of the efuse secure version field",
+                                "type": "int"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                                "help": "This option allows to emulate read/write operations with all eFuses and efuse secure version.\nIt allows to test anti-rollback implementation without permanent write eFuse bits.\nThere should be an entry in partition table with following details: `emul_efuse, data, efuse, , 0x2000`.\n\nThis option enables: EFUSE_VIRTUAL and EFUSE_VIRTUAL_KEEP_IN_FLASH.",
+                                "id": "BOOTLOADER_EFUSE_SECURE_VERSION_EMULATE",
+                                "name": "BOOTLOADER_EFUSE_SECURE_VERSION_EMULATE",
+                                "range": null,
+                                "title": "Emulate operations with efuse secure version(only test)",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "BOOTLOADER_APP_ROLLBACK_ENABLE",
+                        "help": "This option prevents rollback to previous firmware/application image with lower security version.",
+                        "id": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                        "name": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                        "range": null,
+                        "title": "Enable app anti-rollback support",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "help": "After updating the app, the bootloader runs a new app with the \"ESP_OTA_IMG_PENDING_VERIFY\" state set.\nThis state prevents the re-run of this app. After the first boot of the new app in the user code, the\nfunction should be called to confirm the operability of the app or vice versa about its non-operability.\nIf the app is working, then it is marked as valid. Otherwise, it is marked as not valid and rolls back to\nthe previous working app. A reboot is performed, and the app is booted before the software update.\nNote: If during the first boot a new app the power goes out or the WDT works, then roll back will happen.\nRollback is possible only between the apps with the same security versions.",
+                "id": "BOOTLOADER_APP_ROLLBACK_ENABLE",
+                "name": "BOOTLOADER_APP_ROLLBACK_ENABLE",
+                "range": null,
+                "title": "Enable app rollback support",
                 "type": "bool"
             },
             {

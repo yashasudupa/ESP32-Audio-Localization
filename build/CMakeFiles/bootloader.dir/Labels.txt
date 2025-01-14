@@ -1,13 +1,13 @@
 # Target labels
  bootloader
 # Source files and their labels
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/CMakeFiles/bootloader
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/CMakeFiles/bootloader.rule
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/CMakeFiles/bootloader-complete.rule
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
-D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/CMakeFiles/bootloader
+C:/Users/Achira/Desktop/sound-locator-filter/build/CMakeFiles/bootloader.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/CMakeFiles/bootloader-complete.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

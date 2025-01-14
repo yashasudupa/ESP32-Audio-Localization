@@ -2,34 +2,34 @@
 	"sources" : 
 	[
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/CMakeFiles/bootloader"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/CMakeFiles/bootloader"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/CMakeFiles/bootloader.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/CMakeFiles/bootloader.rule"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/CMakeFiles/bootloader-complete.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/CMakeFiles/bootloader-complete.rule"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
 		},
 		{
-			"file" : "D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+			"file" : "C:/Users/Achira/Desktop/sound-locator-filter/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
 		}
 	],
 	"target" : 

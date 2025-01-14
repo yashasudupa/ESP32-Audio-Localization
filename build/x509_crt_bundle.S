@@ -1,4 +1,4 @@
-/* * Data converted from D:/ESP32-S3/esp-idf/esp32s3_blink_cpp/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from C:/Users/Achira/Desktop/sound-locator-filter/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 #if !defined (__APPLE__) && !defined (__linux__)

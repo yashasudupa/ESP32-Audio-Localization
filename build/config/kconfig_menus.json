@@ -2513,16 +2513,6 @@
         "children": [],
         "depends_on": null,
         "help": null,
-        "id": "SOC_TOUCH_SUPPORT_DENOISE_CHAN",
-        "name": "SOC_TOUCH_SUPPORT_DENOISE_CHAN",
-        "range": null,
-        "title": null,
-        "type": "bool"
-    },
-    {
-        "children": [],
-        "depends_on": null,
-        "help": null,
         "id": "SOC_TOUCH_PROXIMITY_CHANNEL_NUM",
         "name": "SOC_TOUCH_PROXIMITY_CHANNEL_NUM",
         "range": null,
@@ -3105,16 +3095,6 @@
         "help": null,
         "id": "SOC_CLK_XTAL32K_SUPPORTED",
         "name": "SOC_CLK_XTAL32K_SUPPORTED",
-        "range": null,
-        "title": null,
-        "type": "bool"
-    },
-    {
-        "children": [],
-        "depends_on": null,
-        "help": null,
-        "id": "SOC_CLK_LP_FAST_SUPPORT_XTAL_D2",
-        "name": "SOC_CLK_LP_FAST_SUPPORT_XTAL_D2",
         "range": null,
         "title": null,
         "type": "bool"
@@ -4091,95 +4071,6 @@
                 "type": "menu"
             },
             {
-                "children": [
-                    {
-                        "children": [
-                            {
-                                "children": [
-                                    {
-                                        "children": [],
-                                        "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                        "help": "The secure version is the sequence number stored in the header of each firmware.\nThe security version is set in the bootloader, version is recorded in the eFuse field\nas the number of set ones. The allocated number of bits in the efuse field\nfor storing the security version is limited (see BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD option).\n\nBootloader: When bootloader selects an app to boot, an app is selected that has\na security version greater or equal that recorded in eFuse field.\nThe app is booted with a higher (or equal) secure version.\n\nThe security version is worth increasing if in previous versions there is\na significant vulnerability and their use is not acceptable.\n\nYour partition table should has a scheme with ota_0 + ota_1 (without factory).",
-                                        "id": "BOOTLOADER_APP_SECURE_VERSION",
-                                        "name": "BOOTLOADER_APP_SECURE_VERSION",
-                                        "range": null,
-                                        "title": "eFuse secure version of app",
-                                        "type": "int"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                        "help": "The size of the efuse secure version field.\nIts length is limited to 32 bits for ESP32 and 16 bits for ESP32-S2.\nThis determines how many times the security version can be increased.",
-                                        "id": "BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD",
-                                        "name": "BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD",
-                                        "range": null,
-                                        "title": "Size of the efuse secure version field",
-                                        "type": "int"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                        "help": "This option allows to emulate read/write operations with all eFuses and efuse secure version.\nIt allows to test anti-rollback implementation without permanent write eFuse bits.\nThere should be an entry in partition table with following details: `emul_efuse, data, efuse, , 0x2000`.\n\nThis option enables: EFUSE_VIRTUAL and EFUSE_VIRTUAL_KEEP_IN_FLASH.",
-                                        "id": "BOOTLOADER_EFUSE_SECURE_VERSION_EMULATE",
-                                        "name": "BOOTLOADER_EFUSE_SECURE_VERSION_EMULATE",
-                                        "range": null,
-                                        "title": "Emulate operations with efuse secure version(only test)",
-                                        "type": "bool"
-                                    }
-                                ],
-                                "depends_on": "BOOTLOADER_APP_ROLLBACK_ENABLE",
-                                "help": "This option prevents rollback to previous firmware/application image with lower security version.",
-                                "id": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                "name": "BOOTLOADER_APP_ANTI_ROLLBACK",
-                                "range": null,
-                                "title": "Enable app anti-rollback support",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": null,
-                        "help": "After updating the app, the bootloader runs a new app with the \"ESP_OTA_IMG_PENDING_VERIFY\" state set.\nThis state prevents the re-run of this app. After the first boot of the new app in the user code, the\nfunction should be called to confirm the operability of the app or vice versa about its non-operability.\nIf the app is working, then it is marked as valid. Otherwise, it is marked as not valid and rolls back to\nthe previous working app. A reboot is performed, and the app is booted before the software update.\nNote: If during the first boot a new app the power goes out or the WDT works, then roll back will happen.\nRollback is possible only between the apps with the same security versions.",
-                        "id": "BOOTLOADER_APP_ROLLBACK_ENABLE",
-                        "name": "BOOTLOADER_APP_ROLLBACK_ENABLE",
-                        "range": null,
-                        "title": "Enable app rollback support",
-                        "type": "bool"
-                    }
-                ],
-                "depends_on": null,
-                "id": "bootloader-config-application-rollback",
-                "title": "Application Rollback",
-                "type": "menu"
-            },
-            {
-                "children": [
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "BOOTLOADER_ANTI_ROLLBACK_ENABLE",
-                                "help": "The secure version is the sequence number stored in the header of each bootloader.\n\nThe ROM Bootloader which runs the 2nd stage bootloader (PRIMARY or RECOVERY) checks that\nthe security version is greater or equal that recorded in the eFuse field.\nBootloaders that have a secure version in the image < secure version in efuse will not boot.\n\nThe security version is worth increasing if in previous versions there is\na significant vulnerability and their use is not acceptable.",
-                                "id": "BOOTLOADER_SECURE_VERSION",
-                                "name": "BOOTLOADER_SECURE_VERSION",
-                                "range": null,
-                                "title": "Secure version of bootloader",
-                                "type": "int"
-                            }
-                        ],
-                        "depends_on": "SOC_RECOVERY_BOOTLOADER_SUPPORTED",
-                        "help": "This option prevents rollback to previous bootloader image with lower security version.",
-                        "id": "BOOTLOADER_ANTI_ROLLBACK_ENABLE",
-                        "name": "BOOTLOADER_ANTI_ROLLBACK_ENABLE",
-                        "range": null,
-                        "title": "Enable bootloader rollback support",
-                        "type": "bool"
-                    }
-                ],
-                "depends_on": null,
-                "id": "bootloader-config-bootloader-rollback",
-                "title": "Bootloader Rollback",
-                "type": "menu"
-            },
-            {
                 "children": [],
                 "depends_on": null,
                 "help": "Offset address that 2nd bootloader will be flashed to.\nThe value is determined by the ROM bootloader.\nIt's not configurable in ESP-IDF.",
@@ -4677,6 +4568,58 @@
                 "name": "BOOTLOADER_WDT_ENABLE",
                 "range": null,
                 "title": "Use RTC watchdog in start code",
+                "type": "bool"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                                "help": "The secure version is the sequence number stored in the header of each firmware.\nThe security version is set in the bootloader, version is recorded in the eFuse field\nas the number of set ones. The allocated number of bits in the efuse field\nfor storing the security version is limited (see BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD option).\n\nBootloader: When bootloader selects an app to boot, an app is selected that has\na security version greater or equal that recorded in eFuse field.\nThe app is booted with a higher (or equal) secure version.\n\nThe security version is worth increasing if in previous versions there is\na significant vulnerability and their use is not acceptable.\n\nYour partition table should has a scheme with ota_0 + ota_1 (without factory).",
+                                "id": "BOOTLOADER_APP_SECURE_VERSION",
+                                "name": "BOOTLOADER_APP_SECURE_VERSION",
+                                "range": null,
+                                "title": "eFuse secure version of app",
+                                "type": "int"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                                "help": "The size of the efuse secure version field.\nIts length is limited to 32 bits for ESP32 and 16 bits for ESP32-S2.\nThis determines how many times the security version can be increased.",
+                                "id": "BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD",
+                                "name": "BOOTLOADER_APP_SEC_VER_SIZE_EFUSE_FIELD",
+                                "range": null,
+                                "title": "Size of the efuse secure version field",
+                                "type": "int"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                                "help": "This option allows to emulate read/write operations with all eFuses and efuse secure version.\nIt allows to test anti-rollback implementation without permanent write eFuse bits.\nThere should be an entry in partition table with following details: `emul_efuse, data, efuse, , 0x2000`.\n\nThis option enables: EFUSE_VIRTUAL and EFUSE_VIRTUAL_KEEP_IN_FLASH.",
+                                "id": "BOOTLOADER_EFUSE_SECURE_VERSION_EMULATE",
+                                "name": "BOOTLOADER_EFUSE_SECURE_VERSION_EMULATE",
+                                "range": null,
+                                "title": "Emulate operations with efuse secure version(only test)",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "BOOTLOADER_APP_ROLLBACK_ENABLE",
+                        "help": "This option prevents rollback to previous firmware/application image with lower security version.",
+                        "id": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                        "name": "BOOTLOADER_APP_ANTI_ROLLBACK",
+                        "range": null,
+                        "title": "Enable app anti-rollback support",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "help": "After updating the app, the bootloader runs a new app with the \"ESP_OTA_IMG_PENDING_VERIFY\" state set.\nThis state prevents the re-run of this app. After the first boot of the new app in the user code, the\nfunction should be called to confirm the operability of the app or vice versa about its non-operability.\nIf the app is working, then it is marked as valid. Otherwise, it is marked as not valid and rolls back to\nthe previous working app. A reboot is performed, and the app is booted before the software update.\nNote: If during the first boot a new app the power goes out or the WDT works, then roll back will happen.\nRollback is possible only between the apps with the same security versions.",
+                "id": "BOOTLOADER_APP_ROLLBACK_ENABLE",
+                "name": "BOOTLOADER_APP_ROLLBACK_ENABLE",
+                "range": null,
+                "title": "Enable app rollback support",
                 "type": "bool"
             },
             {
@@ -9999,21 +9942,21 @@
                             {
                                 "children": [],
                                 "depends_on": "BT_BLE_ENABLED && ((BT_CONTROLLER_ENABLED && SOC_BLE_50_SUPPORTED) || BT_CONTROLLER_DISABLED) && BT_BLUEDROID_ENABLED",
-                                "help": "Enabling this option activates BLE 5.0 features.\nThis option is universally supported in chips that support BLE, except for ESP32.",
+                                "help": "Enabling this option activates BLE 5.0 features.\nThis option is universally supported in chips that support BLE, except for ESP32.\nBLE 4.2 and BLE 5.0 cannot be used simultaneously.",
                                 "id": "BT_BLE_50_FEATURES_SUPPORTED",
                                 "name": "BT_BLE_50_FEATURES_SUPPORTED",
                                 "range": null,
-                                "title": "Enable BLE 5.0 features",
+                                "title": "Enable BLE 5.0 features(please disable BLE 4.2 if enable BLE 5.0)",
                                 "type": "bool"
                             },
                             {
                                 "children": [],
                                 "depends_on": "BT_BLE_ENABLED && ((BT_CONTROLLER_ENABLED && SOC_BLE_SUPPORTED) || BT_CONTROLLER_DISABLED) && BT_BLUEDROID_ENABLED",
-                                "help": "This enables BLE 4.2 features.",
+                                "help": "This enables BLE 4.2 features.\nThis option is universally supported by all ESP chips with BLE capabilities.\nBLE 4.2 and BLE 5.0 cannot be used simultaneously.",
                                 "id": "BT_BLE_42_FEATURES_SUPPORTED",
                                 "name": "BT_BLE_42_FEATURES_SUPPORTED",
                                 "range": null,
-                                "title": "Enable BLE 4.2 features",
+                                "title": "Enable BLE 4.2 features(please disable BLE 5.0 if enable BLE 4.2)",
                                 "type": "bool"
                             },
                             {
@@ -10824,7 +10767,7 @@
                                 "children": [
                                     {
                                         "children": [],
-                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                         "help": "Enable 2M-PHY",
                                         "id": "BT_NIMBLE_LL_CFG_FEAT_LE_2M_PHY",
                                         "name": "BT_NIMBLE_LL_CFG_FEAT_LE_2M_PHY",
@@ -10834,7 +10777,7 @@
                                     },
                                     {
                                         "children": [],
-                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                         "help": "Enable coded-PHY",
                                         "id": "BT_NIMBLE_LL_CFG_FEAT_LE_CODED_PHY",
                                         "name": "BT_NIMBLE_LL_CFG_FEAT_LE_CODED_PHY",
@@ -10846,7 +10789,7 @@
                                         "children": [
                                             {
                                                 "children": [],
-                                                "depends_on": "BT_NIMBLE_EXT_ADV && BT_NIMBLE_EXT_ADV && BT_NIMBLE_ENABLED",
+                                                "depends_on": "BT_NIMBLE_EXT_ADV && BT_NIMBLE_EXT_ADV && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                                 "help": "Change this option to set maximum number of extended advertising\ninstances. Minimum there is always one instance of\nadvertising. Enter how many more advertising instances you\nwant.\nFor ESP32C2, ESP32C6 and ESP32H2, each extended advertising instance\nwill take about 0.5k DRAM.",
                                                 "id": "BT_NIMBLE_MAX_EXT_ADV_INSTANCES",
                                                 "name": "BT_NIMBLE_MAX_EXT_ADV_INSTANCES",
@@ -10856,7 +10799,7 @@
                                             },
                                             {
                                                 "children": [],
-                                                "depends_on": "BT_NIMBLE_EXT_ADV && BT_NIMBLE_EXT_ADV && BT_NIMBLE_ENABLED",
+                                                "depends_on": "BT_NIMBLE_EXT_ADV && BT_NIMBLE_EXT_ADV && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                                 "help": "Defines the length of the extended adv data. The value should not\nexceed 1650.",
                                                 "id": "BT_NIMBLE_EXT_ADV_MAX_SIZE",
                                                 "name": "BT_NIMBLE_EXT_ADV_MAX_SIZE",
@@ -10868,7 +10811,17 @@
                                                 "children": [
                                                     {
                                                         "children": [],
-                                                        "depends_on": "BT_NIMBLE_ENABLE_PERIODIC_ADV && BT_NIMBLE_EXT_ADV && BT_NIMBLE_ENABLED",
+                                                        "depends_on": "BT_NIMBLE_ENABLE_PERIODIC_ADV && SOC_BLE_PERIODIC_ADV_ENH_SUPPORTED && BT_NIMBLE_EXT_ADV && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                                        "help": "Enable the periodic advertising enhancements",
+                                                        "id": "BT_NIMBLE_PERIODIC_ADV_ENH",
+                                                        "name": "BT_NIMBLE_PERIODIC_ADV_ENH",
+                                                        "range": null,
+                                                        "title": "Periodic adv enhancements(adi support)",
+                                                        "type": "bool"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "BT_NIMBLE_ENABLE_PERIODIC_ADV && BT_NIMBLE_EXT_ADV && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                                         "help": "This enables controller transfer periodic sync events to host",
                                                         "id": "BT_NIMBLE_PERIODIC_ADV_SYNC_TRANSFER",
                                                         "name": "BT_NIMBLE_PERIODIC_ADV_SYNC_TRANSFER",
@@ -10877,7 +10830,7 @@
                                                         "type": "bool"
                                                     }
                                                 ],
-                                                "depends_on": "BT_NIMBLE_EXT_ADV && BT_NIMBLE_EXT_ADV && BT_NIMBLE_ENABLED",
+                                                "depends_on": "BT_NIMBLE_EXT_ADV && BT_NIMBLE_EXT_ADV && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                                 "help": "Enable this option to start periodic advertisement.",
                                                 "id": "BT_NIMBLE_ENABLE_PERIODIC_ADV",
                                                 "name": "BT_NIMBLE_ENABLE_PERIODIC_ADV",
@@ -10886,7 +10839,7 @@
                                                 "type": "bool"
                                             }
                                         ],
-                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                         "help": "Enable this option to do extended advertising. Extended advertising\nwill be supported from BLE 5.0 onwards.",
                                         "id": "BT_NIMBLE_EXT_ADV",
                                         "name": "BT_NIMBLE_EXT_ADV",
@@ -10895,28 +10848,50 @@
                                         "type": "bool"
                                     },
                                     {
-                                        "children": [],
-                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
-                                        "help": "Set this option to set the upper limit for number of periodic sync\nconnections. This should be less than maximum connections allowed by\ncontroller.",
-                                        "id": "BT_NIMBLE_MAX_PERIODIC_SYNCS",
-                                        "name": "BT_NIMBLE_MAX_PERIODIC_SYNCS",
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "BT_NIMBLE_ENABLE_PERIODIC_SYNC && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                                        "help": "Set this option to set the upper limit for number of periodic sync\nconnections. This should be less than maximum connections allowed by\ncontroller.",
+                                                        "id": "BT_NIMBLE_MAX_PERIODIC_SYNCS",
+                                                        "name": "BT_NIMBLE_MAX_PERIODIC_SYNCS",
+                                                        "range": null,
+                                                        "title": "Maximum number of periodic advertising syncs",
+                                                        "type": "int"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "SOC_ESP_NIMBLE_CONTROLLER && BT_NIMBLE_ENABLE_PERIODIC_SYNC && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                                        "help": "Set this option to set the upper limit for number of periodic advertiser list.",
+                                                        "id": "BT_NIMBLE_MAX_PERIODIC_ADVERTISER_LIST",
+                                                        "name": "BT_NIMBLE_MAX_PERIODIC_ADVERTISER_LIST",
+                                                        "range": null,
+                                                        "title": "Maximum number of periodic advertiser list",
+                                                        "type": "int"
+                                                    }
+                                                ],
+                                                "depends_on": "BT_NIMBLE_EXT_SCAN && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                                "help": "Enable this option to receive periodic advertisement.",
+                                                "id": "BT_NIMBLE_ENABLE_PERIODIC_SYNC",
+                                                "name": "BT_NIMBLE_ENABLE_PERIODIC_SYNC",
+                                                "range": null,
+                                                "title": "Enable periodic sync",
+                                                "type": "bool"
+                                            }
+                                        ],
+                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ROLE_OBSERVER && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                        "help": "Enable this option to do extended scanning.",
+                                        "id": "BT_NIMBLE_EXT_SCAN",
+                                        "name": "BT_NIMBLE_EXT_SCAN",
                                         "range": null,
-                                        "title": "Maximum number of periodic advertising syncs",
-                                        "type": "int"
+                                        "title": "Enable extended scanning",
+                                        "type": "bool"
                                     },
                                     {
                                         "children": [],
-                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && SOC_ESP_NIMBLE_CONTROLLER && BT_NIMBLE_ENABLED",
-                                        "help": "Set this option to set the upper limit for number of periodic advertiser list.",
-                                        "id": "BT_NIMBLE_MAX_PERIODIC_ADVERTISER_LIST",
-                                        "name": "BT_NIMBLE_MAX_PERIODIC_ADVERTISER_LIST",
-                                        "range": null,
-                                        "title": "Maximum number of periodic advertiser list",
-                                        "type": "int"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && SOC_BLE_POWER_CONTROL_SUPPORTED && BT_NIMBLE_ENABLED",
+                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && SOC_BLE_POWER_CONTROL_SUPPORTED && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                         "help": "Set this option to enable the Power Control feature",
                                         "id": "BT_NIMBLE_BLE_POWER_CONTROL",
                                         "name": "BT_NIMBLE_BLE_POWER_CONTROL",
@@ -10926,17 +10901,7 @@
                                     },
                                     {
                                         "children": [],
-                                        "depends_on": "BT_NIMBLE_ENABLE_PERIODIC_ADV && BT_NIMBLE_50_FEATURE_SUPPORT && SOC_BLE_PERIODIC_ADV_ENH_SUPPORTED && BT_NIMBLE_ENABLED",
-                                        "help": "Enable the periodic advertising enhancements",
-                                        "id": "BT_NIMBLE_PERIODIC_ADV_ENH",
-                                        "name": "BT_NIMBLE_PERIODIC_ADV_ENH",
-                                        "range": null,
-                                        "title": "Periodic adv enhancements(adi support)",
-                                        "type": "bool"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && (BT_CONTROLLER_DISABLED || SOC_BLE_CTE_SUPPORTED) && BT_NIMBLE_ENABLED",
+                                        "depends_on": "BT_NIMBLE_50_FEATURE_SUPPORT && (BT_CONTROLLER_DISABLED || SOC_BLE_CTE_SUPPORTED) && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                         "help": "Enable support for Connectionless and Connection Oriented Direction Finding",
                                         "id": "BT_NIMBLE_AOA_AOD",
                                         "name": "BT_NIMBLE_AOA_AOD",
@@ -10948,7 +10913,7 @@
                                         "children": [
                                             {
                                                 "children": [],
-                                                "depends_on": "BT_NIMBLE_GATT_CACHING && BT_NIMBLE_ENABLED",
+                                                "depends_on": "BT_NIMBLE_GATT_CACHING && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                                 "help": "Set this option to set the upper limit on number of connections to be cached.",
                                                 "id": "BT_NIMBLE_GATT_CACHING_MAX_CONNS",
                                                 "name": "BT_NIMBLE_GATT_CACHING_MAX_CONNS",
@@ -10958,7 +10923,7 @@
                                             },
                                             {
                                                 "children": [],
-                                                "depends_on": "BT_NIMBLE_GATT_CACHING && BT_NIMBLE_ENABLED",
+                                                "depends_on": "BT_NIMBLE_GATT_CACHING && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                                 "help": "Set this option to set the upper limit on number of services per connection to be cached.",
                                                 "id": "BT_NIMBLE_GATT_CACHING_MAX_SVCS",
                                                 "name": "BT_NIMBLE_GATT_CACHING_MAX_SVCS",
@@ -10968,7 +10933,7 @@
                                             },
                                             {
                                                 "children": [],
-                                                "depends_on": "BT_NIMBLE_GATT_CACHING && BT_NIMBLE_ENABLED",
+                                                "depends_on": "BT_NIMBLE_GATT_CACHING && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                                 "help": "Set this option to set the upper limit on number of characteristics per connection to be cached.",
                                                 "id": "BT_NIMBLE_GATT_CACHING_MAX_CHRS",
                                                 "name": "BT_NIMBLE_GATT_CACHING_MAX_CHRS",
@@ -10978,7 +10943,7 @@
                                             },
                                             {
                                                 "children": [],
-                                                "depends_on": "BT_NIMBLE_GATT_CACHING && BT_NIMBLE_ENABLED",
+                                                "depends_on": "BT_NIMBLE_GATT_CACHING && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                                 "help": "Set this option to set the upper limit on number of descriptors per connection to be cached.",
                                                 "id": "BT_NIMBLE_GATT_CACHING_MAX_DSCS",
                                                 "name": "BT_NIMBLE_GATT_CACHING_MAX_DSCS",
@@ -10987,7 +10952,7 @@
                                                 "type": "int"
                                             }
                                         ],
-                                        "depends_on": "BT_NIMBLE_ENABLED && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
+                                        "depends_on": "BT_NIMBLE_ENABLED && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_50_FEATURE_SUPPORT && BT_NIMBLE_ENABLED",
                                         "help": "Enable GATT caching",
                                         "id": "BT_NIMBLE_GATT_CACHING",
                                         "is_menuconfig": true,
@@ -12755,17 +12720,6 @@
                         "range": null,
                         "title": "Support using random adv interval for mesh packets",
                         "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "BLE_MESH_EXPERIMENTAL && (IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32S3) && BLE_MESH",
-                        "help": "This option to enable BLE Mesh using some BLE 5.0 APIs.",
-                        "id": "BLE_MESH_USE_BLE_50",
-                        "is_menuconfig": true,
-                        "name": "BLE_MESH_USE_BLE_50",
-                        "range": null,
-                        "title": "Support using BLE 5.0 APIs for BLE Mesh",
-                        "type": "menu"
                     },
                     {
                         "children": [],
@@ -14745,7 +14699,7 @@
                     {
                         "children": [],
                         "depends_on": "BLE_MESH",
-                        "help": "Make BLE Mesh Experimental features visible.\nExperimental features list:\n- CONFIG_BLE_MESH_NOT_RELAY_REPLAY_MSG\n- CONFIG_BLE_MESH_USE_BLE_50",
+                        "help": "Make BLE Mesh Experimental features visible.\nExperimental features list:\n- CONFIG_BLE_MESH_NOT_RELAY_REPLAY_MSG",
                         "id": "BLE_MESH_EXPERIMENTAL",
                         "name": "BLE_MESH_EXPERIMENTAL",
                         "range": null,
@@ -15068,24 +15022,6 @@
                         "depends_on": "SOC_TEMP_SENSOR_SUPPORTED",
                         "id": "component-config-driver-configurations-legacy-temperature-sensor-driver-configurations",
                         "title": "Legacy Temperature Sensor Driver Configurations",
-                        "type": "menu"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "SOC_TOUCH_SENSOR_SUPPORTED",
-                                "help": "whether to suppress the deprecation warnings when using legacy touch sensor driver\n(driver/touch_sensor.h). If you want to continue using the legacy driver,\nand don't want to see related deprecation warnings, you can enable this option.",
-                                "id": "TOUCH_SUPPRESS_DEPRECATE_WARN",
-                                "name": "TOUCH_SUPPRESS_DEPRECATE_WARN",
-                                "range": null,
-                                "title": "Suppress legacy driver deprecated warning",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": "SOC_TOUCH_SENSOR_SUPPORTED",
-                        "id": "component-config-driver-configurations-legacy-touch-sensor-driver-configurations",
-                        "title": "Legacy Touch Sensor Driver Configurations",
                         "type": "menu"
                     }
                 ],
@@ -28191,114 +28127,846 @@
                     {
                         "children": [
                             {
-                                "children": [],
+                                "children": [
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "The OpenThread package name.",
+                                        "id": "OPENTHREAD_PACKAGE_NAME",
+                                        "name": "OPENTHREAD_PACKAGE_NAME",
+                                        "range": null,
+                                        "title": "OpenThread package name",
+                                        "type": "string"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "The OpenThread platform information.",
+                                        "id": "OPENTHREAD_PLATFORM_INFO",
+                                        "name": "OPENTHREAD_PLATFORM_INFO",
+                                        "range": null,
+                                        "title": "platform information",
+                                        "type": "string"
+                                    }
+                                ],
                                 "depends_on": "OPENTHREAD_ENABLED",
-                                "help": "Select this option to enable dynamic log level control for OpenThread",
-                                "id": "OPENTHREAD_LOG_LEVEL_DYNAMIC",
-                                "name": "OPENTHREAD_LOG_LEVEL_DYNAMIC",
-                                "range": null,
-                                "title": "Enable dynamic log level control",
-                                "type": "bool"
+                                "id": "component-config-openthread-openthread-thread-version-message",
+                                "title": "Thread Version Message",
+                                "type": "menu"
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [],
+                                                "depends_on": "(ESP_CONSOLE_UART_DEFAULT || ESP_CONSOLE_UART_CUSTOM) && <choice OPENTHREAD_CONSOLE_TYPE>",
+                                                "help": null,
+                                                "id": "OPENTHREAD_CONSOLE_TYPE_UART",
+                                                "name": "OPENTHREAD_CONSOLE_TYPE_UART",
+                                                "range": null,
+                                                "title": "OpenThread console type UART",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "(ESP_CONSOLE_USB_SERIAL_JTAG || ESP_CONSOLE_SECONDARY_USB_SERIAL_JTAG) && <choice OPENTHREAD_CONSOLE_TYPE>",
+                                                "help": null,
+                                                "id": "OPENTHREAD_CONSOLE_TYPE_USB_SERIAL_JTAG",
+                                                "name": "OPENTHREAD_CONSOLE_TYPE_USB_SERIAL_JTAG",
+                                                "range": null,
+                                                "title": "OpenThread console type USB Serial/JTAG Controller",
+                                                "type": "bool"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select OpenThread console type",
+                                        "id": "component-config-openthread-openthread-thread-console-openthread-console-type",
+                                        "name": "OPENTHREAD_CONSOLE_TYPE",
+                                        "title": "OpenThread console type",
+                                        "type": "choice"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable Command-Line Interface in OpenThread.",
+                                        "id": "OPENTHREAD_CLI",
+                                        "name": "OPENTHREAD_CLI",
+                                        "range": null,
+                                        "title": "Enable Openthread Command-Line Interface",
+                                        "type": "bool"
+                                    }
+                                ],
+                                "depends_on": "OPENTHREAD_ENABLED",
+                                "id": "component-config-openthread-openthread-thread-console",
+                                "title": "Thread Console",
+                                "type": "menu"
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": null,
+                                                "id": "OPENTHREAD_NETWORK_NAME",
+                                                "name": "OPENTHREAD_NETWORK_NAME",
+                                                "range": null,
+                                                "title": "OpenThread network name",
+                                                "type": "string"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": "A string in the format \"<address>/<plen>\", where `<address>` is an IPv6\naddress and `<plen>` is a prefix length. For example \"fd00:db8:a0:0::/64\"",
+                                                "id": "OPENTHREAD_MESH_LOCAL_PREFIX",
+                                                "name": "OPENTHREAD_MESH_LOCAL_PREFIX",
+                                                "range": null,
+                                                "title": "OpenThread mesh local prefix, format <address>/<plen>",
+                                                "type": "string"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": null,
+                                                "id": "OPENTHREAD_NETWORK_CHANNEL",
+                                                "name": "OPENTHREAD_NETWORK_CHANNEL",
+                                                "range": null,
+                                                "title": "OpenThread network channel",
+                                                "type": "int"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": null,
+                                                "id": "OPENTHREAD_NETWORK_PANID",
+                                                "name": "OPENTHREAD_NETWORK_PANID",
+                                                "range": null,
+                                                "title": "OpenThread network pan id",
+                                                "type": "hex"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": "The OpenThread network extended pan id in hex string format",
+                                                "id": "OPENTHREAD_NETWORK_EXTPANID",
+                                                "name": "OPENTHREAD_NETWORK_EXTPANID",
+                                                "range": null,
+                                                "title": "OpenThread extended pan id",
+                                                "type": "string"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": "The OpenThread network network key in hex string format",
+                                                "id": "OPENTHREAD_NETWORK_MASTERKEY",
+                                                "name": "OPENTHREAD_NETWORK_MASTERKEY",
+                                                "range": null,
+                                                "title": "OpenThread network key",
+                                                "type": "string"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": "The OpenThread pre-shared commissioner key in hex string format",
+                                                "id": "OPENTHREAD_NETWORK_PSKC",
+                                                "name": "OPENTHREAD_NETWORK_PSKC",
+                                                "range": null,
+                                                "title": "OpenThread pre-shared commissioner key",
+                                                "type": "string"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "id": "component-config-openthread-openthread-thread-core-features-thread-operational-dataset",
+                                        "title": "Thread Operational Dataset",
+                                        "type": "menu"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_DEVICE_TYPE>",
+                                                "help": "Select this to enable Full Thread Device which can act as router and leader in a Thread network.",
+                                                "id": "OPENTHREAD_FTD",
+                                                "name": "OPENTHREAD_FTD",
+                                                "range": null,
+                                                "title": "Full Thread Device",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_DEVICE_TYPE>",
+                                                "help": "Select this to enable Minimal Thread Device which can only act as end device in a Thread network.\nThis will reduce the code size of the OpenThread stack.",
+                                                "id": "OPENTHREAD_MTD",
+                                                "name": "OPENTHREAD_MTD",
+                                                "range": null,
+                                                "title": "Minimal Thread Device",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_DEVICE_TYPE>",
+                                                "help": "Select this to enable Radio Only Device which can only forward 15.4 packets to the host.\nThe OpenThread stack will be run on the host and OpenThread will have minimal footprint on the\nradio only device.",
+                                                "id": "OPENTHREAD_RADIO",
+                                                "name": "OPENTHREAD_RADIO",
+                                                "range": null,
+                                                "title": "Radio Only Device",
+                                                "type": "bool"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "OpenThread can be configured to different device types (FTD, MTD, Radio)",
+                                        "id": "component-config-openthread-openthread-thread-core-features-thread-device-type",
+                                        "name": "OPENTHREAD_DEVICE_TYPE",
+                                        "title": "Thread device type",
+                                        "type": "choice"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_RADIO_TREL && (EXAMPLE_CONNECT_WIFI || EXAMPLE_CONNECT_ETHERNET) && OPENTHREAD_ENABLED",
+                                                        "help": "Configure the port number of TREL service.",
+                                                        "id": "OPENTHREAD_TREL_PORT",
+                                                        "name": "OPENTHREAD_TREL_PORT",
+                                                        "range": null,
+                                                        "title": "The port of openthread trel service",
+                                                        "type": "int"
+                                                    }
+                                                ],
+                                                "depends_on": "(EXAMPLE_CONNECT_WIFI || EXAMPLE_CONNECT_ETHERNET) && OPENTHREAD_ENABLED",
+                                                "help": "Select this option to enable Thread Radio Encapsulation Link.",
+                                                "id": "OPENTHREAD_RADIO_TREL",
+                                                "name": "OPENTHREAD_RADIO_TREL",
+                                                "range": null,
+                                                "title": "Enable Thread Radio Encapsulation Link (TREL)",
+                                                "type": "bool"
+                                            }
+                                        ],
+                                        "depends_on": "(EXAMPLE_CONNECT_WIFI || EXAMPLE_CONNECT_ETHERNET) && OPENTHREAD_ENABLED",
+                                        "id": "component-config-openthread-openthread-thread-core-features-thread-trel-radio-link",
+                                        "title": "Thread Trel Radio Link",
+                                        "type": "menu"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "<choice OPENTHREAD_RADIO_TYPE>",
+                                                        "help": "Select this to use the native 15.4 radio.",
+                                                        "id": "OPENTHREAD_RADIO_NATIVE",
+                                                        "name": "OPENTHREAD_RADIO_NATIVE",
+                                                        "range": null,
+                                                        "title": "Native 15.4 radio",
+                                                        "type": "bool"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "<choice OPENTHREAD_RADIO_TYPE>",
+                                                        "help": "Select this to connect to a Radio Co-Processor via UART.",
+                                                        "id": "OPENTHREAD_RADIO_SPINEL_UART",
+                                                        "name": "OPENTHREAD_RADIO_SPINEL_UART",
+                                                        "range": null,
+                                                        "title": "Connect via UART",
+                                                        "type": "bool"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "<choice OPENTHREAD_RADIO_TYPE>",
+                                                        "help": "Select this to connect to a Radio Co-Processor via SPI.",
+                                                        "id": "OPENTHREAD_RADIO_SPINEL_SPI",
+                                                        "name": "OPENTHREAD_RADIO_SPINEL_SPI",
+                                                        "range": null,
+                                                        "title": "Connect via SPI",
+                                                        "type": "bool"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "<choice OPENTHREAD_RADIO_TYPE>",
+                                                        "help": "Select this to disable the Thread radio based on 15.4 link.",
+                                                        "id": "OPENTHREAD_RADIO_154_NONE",
+                                                        "name": "OPENTHREAD_RADIO_154_NONE",
+                                                        "range": null,
+                                                        "title": "Disable the Thread radio based on 15.4 link",
+                                                        "type": "bool"
+                                                    }
+                                                ],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": "Configure how OpenThread connects to the 15.4 radio",
+                                                "id": "component-config-openthread-openthread-thread-core-features-thread-15-4-radio-link-config-the-thread-radio-type-with-15-4-link",
+                                                "name": "OPENTHREAD_RADIO_TYPE",
+                                                "title": "Config the Thread radio type with 15.4 link",
+                                                "type": "choice"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "id": "component-config-openthread-openthread-thread-core-features-thread-15-4-radio-link",
+                                        "title": "Thread 15.4 Radio Link",
+                                        "type": "menu"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "<choice OPENTHREAD_RCP_TRANSPORT>",
+                                                        "help": "Select this to enable UART connection to host.",
+                                                        "id": "OPENTHREAD_RCP_UART",
+                                                        "name": "OPENTHREAD_RCP_UART",
+                                                        "range": null,
+                                                        "title": "UART RCP",
+                                                        "type": "bool"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "<choice OPENTHREAD_RCP_TRANSPORT>",
+                                                        "help": "Select this to enable SPI connection to host.",
+                                                        "id": "OPENTHREAD_RCP_SPI",
+                                                        "name": "OPENTHREAD_RCP_SPI",
+                                                        "range": null,
+                                                        "title": "SPI RCP",
+                                                        "type": "bool"
+                                                    }
+                                                ],
+                                                "depends_on": "OPENTHREAD_RADIO && OPENTHREAD_ENABLED",
+                                                "help": null,
+                                                "id": "component-config-openthread-openthread-thread-core-features-thread-radio-co-processor-feature-the-rcp-transport-type",
+                                                "name": "OPENTHREAD_RCP_TRANSPORT",
+                                                "title": "The RCP transport type",
+                                                "type": "choice"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_RADIO && OPENTHREAD_ENABLED",
+                                                "help": "Select this to enable OpenThread NCP vendor commands.",
+                                                "id": "OPENTHREAD_NCP_VENDOR_HOOK",
+                                                "name": "OPENTHREAD_NCP_VENDOR_HOOK",
+                                                "range": null,
+                                                "title": "Enable vendor command for RCP",
+                                                "type": "bool"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_RADIO && OPENTHREAD_ENABLED",
+                                        "id": "component-config-openthread-openthread-thread-core-features-thread-radio-co-processor-feature",
+                                        "title": "Thread Radio Co-Processor Feature",
+                                        "type": "menu"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_FTD && OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable border router features in OpenThread.",
+                                        "id": "OPENTHREAD_BORDER_ROUTER",
+                                        "name": "OPENTHREAD_BORDER_ROUTER",
+                                        "range": null,
+                                        "title": "Enable Border Router",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_COMMISSIONER && OPENTHREAD_ENABLED",
+                                                        "help": null,
+                                                        "id": "OPENTHREAD_COMM_MAX_JOINER_ENTRIES",
+                                                        "name": "OPENTHREAD_COMM_MAX_JOINER_ENTRIES",
+                                                        "range": null,
+                                                        "title": "The size of max commissioning joiner entries",
+                                                        "type": "int"
+                                                    }
+                                                ],
+                                                "depends_on": "OPENTHREAD_COMMISSIONER && OPENTHREAD_ENABLED",
+                                                "id": "component-config-openthread-openthread-thread-core-features-enable-commissioner-commissioner-configurations",
+                                                "title": "Commissioner Configurations",
+                                                "type": "menu"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable commissioner in OpenThread. This will enable the device to act as a\ncommissioner in the Thread network. A commissioner checks the pre-shared key from a joining device\nwith the Thread commissioning protocol and shares the network parameter with the joining device\nupon success.",
+                                        "id": "OPENTHREAD_COMMISSIONER",
+                                        "name": "OPENTHREAD_COMMISSIONER",
+                                        "range": null,
+                                        "title": "Enable Commissioner",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable Joiner in OpenThread. This allows a device to join the\nThread network with a pre-shared key using the Thread commissioning protocol.",
+                                        "id": "OPENTHREAD_JOINER",
+                                        "name": "OPENTHREAD_JOINER",
+                                        "range": null,
+                                        "title": "Enable Joiner",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_SRP_CLIENT && OPENTHREAD_ENABLED",
+                                                        "help": "Set the max buffer size of service entries in the SRP client service pool.",
+                                                        "id": "OPENTHREAD_SRP_CLIENT_MAX_SERVICES",
+                                                        "name": "OPENTHREAD_SRP_CLIENT_MAX_SERVICES",
+                                                        "range": null,
+                                                        "title": "Specifies number of service entries in the SRP client service pool",
+                                                        "type": "int"
+                                                    }
+                                                ],
+                                                "depends_on": "OPENTHREAD_SRP_CLIENT && OPENTHREAD_ENABLED",
+                                                "id": "component-config-openthread-openthread-thread-core-features-enable-srp-client-srp-client-configurations",
+                                                "title": "SRP Client Configurations",
+                                                "type": "menu"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable SRP Client in OpenThread.\nThis allows a device to register SRP services to SRP Server.",
+                                        "id": "OPENTHREAD_SRP_CLIENT",
+                                        "name": "OPENTHREAD_SRP_CLIENT",
+                                        "range": null,
+                                        "title": "Enable SRP Client",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable DNS Client in OpenThread.",
+                                        "id": "OPENTHREAD_DNS_CLIENT",
+                                        "name": "OPENTHREAD_DNS_CLIENT",
+                                        "range": null,
+                                        "title": "Enable DNS Client",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_DNS64_CLIENT && OPENTHREAD_ENABLED",
+                                                        "help": "Set the DNS server IPv4 address.",
+                                                        "id": "OPENTHREAD_DNS_SERVER_ADDR",
+                                                        "name": "OPENTHREAD_DNS_SERVER_ADDR",
+                                                        "range": null,
+                                                        "title": "DNS server address (IPv4)",
+                                                        "type": "string"
+                                                    }
+                                                ],
+                                                "depends_on": "OPENTHREAD_DNS64_CLIENT && OPENTHREAD_ENABLED",
+                                                "id": "component-config-openthread-openthread-thread-core-features-enable-dns64-client-dns64-client-configurations",
+                                                "title": "DNS64 Client Configurations",
+                                                "type": "menu"
+                                            }
+                                        ],
+                                        "depends_on": "LWIP_IPV4 && OPENTHREAD_ENABLED",
+                                        "help": "Select this option to acquire NAT64 address from dns servers.",
+                                        "id": "OPENTHREAD_DNS64_CLIENT",
+                                        "name": "OPENTHREAD_DNS64_CLIENT",
+                                        "range": null,
+                                        "title": "Enable DNS64 Client",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable link metrics feature",
+                                        "id": "OPENTHREAD_LINK_METRICS",
+                                        "name": "OPENTHREAD_LINK_METRICS",
+                                        "range": null,
+                                        "title": "Enable link metrics feature",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable mac filter feature",
+                                        "id": "OPENTHREAD_MACFILTER_ENABLE",
+                                        "name": "OPENTHREAD_MACFILTER_ENABLE",
+                                        "range": null,
+                                        "title": "Enable mac filter feature",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_CSL_ENABLE && OPENTHREAD_ENABLED",
+                                                        "help": "The current accuracy of the clock used for scheduling CSL operations",
+                                                        "id": "OPENTHREAD_CSL_ACCURACY",
+                                                        "name": "OPENTHREAD_CSL_ACCURACY",
+                                                        "range": null,
+                                                        "title": "The current CSL rx/tx scheduling drift, in units of \u00b1 ppm",
+                                                        "type": "int"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_CSL_ENABLE && OPENTHREAD_ENABLED",
+                                                        "help": "The fixed uncertainty of the Device for scheduling CSL Transmissions in units of 10 microseconds.",
+                                                        "id": "OPENTHREAD_CSL_UNCERTAIN",
+                                                        "name": "OPENTHREAD_CSL_UNCERTAIN",
+                                                        "range": null,
+                                                        "title": "The CSL Uncertainty in units of 10 us.",
+                                                        "type": "int"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_CSL_ENABLE && OPENTHREAD_ENABLED",
+                                                        "help": "Select this option to set rx on when sleep in CSL feature, only for debug",
+                                                        "id": "OPENTHREAD_CSL_DEBUG_ENABLE",
+                                                        "name": "OPENTHREAD_CSL_DEBUG_ENABLE",
+                                                        "range": null,
+                                                        "title": "Enable CSL debug",
+                                                        "type": "bool"
+                                                    }
+                                                ],
+                                                "depends_on": "OPENTHREAD_CSL_ENABLE && OPENTHREAD_ENABLED",
+                                                "id": "component-config-openthread-openthread-thread-core-features-enable-csl-feature-csl-configurations",
+                                                "title": "CSL Configurations",
+                                                "type": "menu"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable CSL feature",
+                                        "id": "OPENTHREAD_CSL_ENABLE",
+                                        "name": "OPENTHREAD_CSL_ENABLE",
+                                        "range": null,
+                                        "title": "Enable CSL feature",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable time synchronization feature, the devices in the same Thread network could\nsync to the same network time.",
+                                        "id": "OPENTHREAD_TIME_SYNC",
+                                        "name": "OPENTHREAD_TIME_SYNC",
+                                        "range": null,
+                                        "title": "Enable the time synchronization service feature",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "(OPENTHREAD_FTD || OPENTHREAD_MTD) && OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable the radio statistics feature, you can use radio\ncommand to print some radio Statistics information.",
+                                        "id": "OPENTHREAD_RADIO_STATS_ENABLE",
+                                        "name": "OPENTHREAD_RADIO_STATS_ENABLE",
+                                        "range": null,
+                                        "title": "Enable Radio Statistics feature",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable OpenThread radio capability rx on when idle.\nDo not support this feature when SW coexistence is enabled.",
+                                        "id": "OPENTHREAD_RX_ON_WHEN_IDLE",
+                                        "name": "OPENTHREAD_RX_ON_WHEN_IDLE",
+                                        "range": null,
+                                        "title": "Enable OpenThread radio capability rx on when idle",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable Diag in OpenThread. This will enable diag mode and a series of diag\ncommands in the OpenThread command line. These commands allow users to manipulate low-level\nfeatures of the storage and 15.4 radio.",
+                                        "id": "OPENTHREAD_DIAG",
+                                        "name": "OPENTHREAD_DIAG",
+                                        "range": null,
+                                        "title": "Enable diag",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [],
+                                                "depends_on": "(SPIRAM_USE_CAPS_ALLOC || SPIRAM_USE_MALLOC) && OPENTHREAD_ENABLED",
+                                                "help": "Select this option to allocate buffer from PSRAM for Thread",
+                                                "id": "OPENTHREAD_MEM_ALLOC_EXTERNAL",
+                                                "name": "OPENTHREAD_MEM_ALLOC_EXTERNAL",
+                                                "range": null,
+                                                "title": "Allocate memory from PSRAM",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "(SPIRAM_USE_CAPS_ALLOC || SPIRAM_USE_MALLOC) && OPENTHREAD_ENABLED",
+                                                "help": "If enabled, the message pool is managed by platform defined logic.",
+                                                "id": "OPENTHREAD_PLATFORM_MSGPOOL_MANAGEMENT",
+                                                "name": "OPENTHREAD_PLATFORM_MSGPOOL_MANAGEMENT",
+                                                "range": null,
+                                                "title": "Allocate message pool buffer from PSRAM",
+                                                "type": "bool"
+                                            }
+                                        ],
+                                        "depends_on": "(SPIRAM_USE_CAPS_ALLOC || SPIRAM_USE_MALLOC) && OPENTHREAD_ENABLED",
+                                        "id": "component-config-openthread-openthread-thread-core-features-thread-memory-allocation",
+                                        "title": "Thread Memory Allocation",
+                                        "type": "menu"
+                                    },
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "(OPENTHREAD_FTD || OPENTHREAD_MTD) && OPENTHREAD_ENABLED",
+                                                        "help": null,
+                                                        "id": "OPENTHREAD_ADDRESS_QUERY_TIMEOUT",
+                                                        "name": "OPENTHREAD_ADDRESS_QUERY_TIMEOUT",
+                                                        "range": null,
+                                                        "title": "Timeout (in seconds) for a address notification response after sending an address query.",
+                                                        "type": "int"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "(OPENTHREAD_FTD || OPENTHREAD_MTD) && OPENTHREAD_ENABLED",
+                                                        "help": null,
+                                                        "id": "OPENTHREAD_ADDRESS_QUERY_RETRY_DELAY",
+                                                        "name": "OPENTHREAD_ADDRESS_QUERY_RETRY_DELAY",
+                                                        "range": null,
+                                                        "title": "Initial retry delay for address query (in seconds).",
+                                                        "type": "int"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "(OPENTHREAD_FTD || OPENTHREAD_MTD) && OPENTHREAD_ENABLED",
+                                                        "help": null,
+                                                        "id": "OPENTHREAD_ADDRESS_QUERY_MAX_RETRY_DELAY",
+                                                        "name": "OPENTHREAD_ADDRESS_QUERY_MAX_RETRY_DELAY",
+                                                        "range": null,
+                                                        "title": "Maximum retry delay for address query (in seconds).",
+                                                        "type": "int"
+                                                    }
+                                                ],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "id": "component-config-openthread-openthread-thread-core-features-openthread-stack-parameters-thread-address-query-config",
+                                                "title": "Thread Address Query Config",
+                                                "type": "menu"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": null,
+                                                "id": "OPENTHREAD_NUM_MESSAGE_BUFFERS",
+                                                "name": "OPENTHREAD_NUM_MESSAGE_BUFFERS",
+                                                "range": null,
+                                                "title": "The number of openthread message buffers",
+                                                "type": "int"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": "The device's XTAL accuracy, in ppm.",
+                                                "id": "OPENTHREAD_XTAL_ACCURACY",
+                                                "name": "OPENTHREAD_XTAL_ACCURACY",
+                                                "range": null,
+                                                "title": "The accuracy of the XTAL",
+                                                "type": "int"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": null,
+                                                "id": "OPENTHREAD_MLE_MAX_CHILDREN",
+                                                "name": "OPENTHREAD_MLE_MAX_CHILDREN",
+                                                "range": null,
+                                                "title": "The size of max MLE children entries",
+                                                "type": "int"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": null,
+                                                "id": "OPENTHREAD_TMF_ADDR_CACHE_ENTRIES",
+                                                "name": "OPENTHREAD_TMF_ADDR_CACHE_ENTRIES",
+                                                "range": null,
+                                                "title": "The size of max TMF address cache entries",
+                                                "type": "int"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": "Set the OpenThread UART buffer size.",
+                                                "id": "OPENTHREAD_UART_BUFFER_SIZE",
+                                                "name": "OPENTHREAD_UART_BUFFER_SIZE",
+                                                "range": null,
+                                                "title": "The uart received buffer size of openthread",
+                                                "type": "int"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "OPENTHREAD_ENABLED",
+                                                "help": "The maximum number of backoffs the CSMA-CA algorithm will attempt before declaring a channel access\nfailure.",
+                                                "id": "OPENTHREAD_MAC_MAX_CSMA_BACKOFFS_DIRECT",
+                                                "name": "OPENTHREAD_MAC_MAX_CSMA_BACKOFFS_DIRECT",
+                                                "range": null,
+                                                "title": "Maximum backoffs times before declaring a channel access failure.",
+                                                "type": "int"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "id": "component-config-openthread-openthread-thread-core-features-openthread-stack-parameters",
+                                        "title": "OpenThread Stack Parameters",
+                                        "type": "menu"
+                                    }
+                                ],
+                                "depends_on": "OPENTHREAD_ENABLED",
+                                "id": "component-config-openthread-openthread-thread-core-features",
+                                "title": "Thread Core Features",
+                                "type": "menu"
                             },
                             {
                                 "children": [
                                     {
                                         "children": [],
-                                        "depends_on": "(ESP_CONSOLE_UART_DEFAULT || ESP_CONSOLE_UART_CUSTOM) && <choice OPENTHREAD_CONSOLE_TYPE>",
-                                        "help": null,
-                                        "id": "OPENTHREAD_CONSOLE_TYPE_UART",
-                                        "name": "OPENTHREAD_CONSOLE_TYPE_UART",
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "Select this option to enable dynamic log level control for OpenThread",
+                                        "id": "OPENTHREAD_LOG_LEVEL_DYNAMIC",
+                                        "name": "OPENTHREAD_LOG_LEVEL_DYNAMIC",
                                         "range": null,
-                                        "title": "OpenThread console type UART",
+                                        "title": "Enable dynamic log level control",
                                         "type": "bool"
                                     },
                                     {
+                                        "children": [
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
+                                                "help": null,
+                                                "id": "OPENTHREAD_LOG_LEVEL_NONE",
+                                                "name": "OPENTHREAD_LOG_LEVEL_NONE",
+                                                "range": null,
+                                                "title": "No logs",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
+                                                "help": null,
+                                                "id": "OPENTHREAD_LOG_LEVEL_CRIT",
+                                                "name": "OPENTHREAD_LOG_LEVEL_CRIT",
+                                                "range": null,
+                                                "title": "Error logs",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
+                                                "help": null,
+                                                "id": "OPENTHREAD_LOG_LEVEL_WARN",
+                                                "name": "OPENTHREAD_LOG_LEVEL_WARN",
+                                                "range": null,
+                                                "title": "Warning logs",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
+                                                "help": null,
+                                                "id": "OPENTHREAD_LOG_LEVEL_NOTE",
+                                                "name": "OPENTHREAD_LOG_LEVEL_NOTE",
+                                                "range": null,
+                                                "title": "Notice logs",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
+                                                "help": null,
+                                                "id": "OPENTHREAD_LOG_LEVEL_INFO",
+                                                "name": "OPENTHREAD_LOG_LEVEL_INFO",
+                                                "range": null,
+                                                "title": "Info logs",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
+                                                "help": null,
+                                                "id": "OPENTHREAD_LOG_LEVEL_DEBG",
+                                                "name": "OPENTHREAD_LOG_LEVEL_DEBG",
+                                                "range": null,
+                                                "title": "Debug logs",
+                                                "type": "bool"
+                                            }
+                                        ],
+                                        "depends_on": "!OPENTHREAD_LOG_LEVEL_DYNAMIC && OPENTHREAD_ENABLED",
+                                        "help": "Select OpenThread log level.",
+                                        "id": "component-config-openthread-openthread-thread-log-openthread-log-verbosity",
+                                        "name": "OPENTHREAD_LOG_LEVEL",
+                                        "title": "OpenThread log verbosity",
+                                        "type": "choice"
+                                    },
+                                    {
                                         "children": [],
-                                        "depends_on": "(ESP_CONSOLE_USB_SERIAL_JTAG || ESP_CONSOLE_SECONDARY_USB_SERIAL_JTAG) && <choice OPENTHREAD_CONSOLE_TYPE>",
+                                        "depends_on": "!OPENTHREAD_LOG_LEVEL_DYNAMIC && OPENTHREAD_ENABLED",
                                         "help": null,
-                                        "id": "OPENTHREAD_CONSOLE_TYPE_USB_SERIAL_JTAG",
-                                        "name": "OPENTHREAD_CONSOLE_TYPE_USB_SERIAL_JTAG",
+                                        "id": "OPENTHREAD_LOG_LEVEL",
+                                        "name": "OPENTHREAD_LOG_LEVEL",
                                         "range": null,
-                                        "title": "OpenThread console type USB Serial/JTAG Controller",
-                                        "type": "bool"
+                                        "title": null,
+                                        "type": "int"
                                     }
                                 ],
                                 "depends_on": "OPENTHREAD_ENABLED",
-                                "help": "Select OpenThread console type",
-                                "id": "component-config-openthread-openthread-openthread-console-type",
-                                "name": "OPENTHREAD_CONSOLE_TYPE",
-                                "title": "OpenThread console type",
-                                "type": "choice"
+                                "id": "component-config-openthread-openthread-thread-log",
+                                "title": "Thread Log",
+                                "type": "menu"
                             },
                             {
                                 "children": [
                                     {
-                                        "children": [],
-                                        "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
-                                        "help": null,
-                                        "id": "OPENTHREAD_LOG_LEVEL_NONE",
-                                        "name": "OPENTHREAD_LOG_LEVEL_NONE",
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_HEADER_CUSTOM && OPENTHREAD_HEADER_CUSTOM && OPENTHREAD_ENABLED",
+                                                        "help": "Please use relative paths with respect to the project folder.",
+                                                        "id": "OPENTHREAD_CUSTOM_HEADER_PATH",
+                                                        "name": "OPENTHREAD_CUSTOM_HEADER_PATH",
+                                                        "range": null,
+                                                        "title": "Path of custom header file",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "OPENTHREAD_HEADER_CUSTOM && OPENTHREAD_HEADER_CUSTOM && OPENTHREAD_ENABLED",
+                                                        "help": "Name of custom header file.",
+                                                        "id": "OPENTHREAD_CUSTOM_HEADER_FILE_NAME",
+                                                        "name": "OPENTHREAD_CUSTOM_HEADER_FILE_NAME",
+                                                        "range": null,
+                                                        "title": "Name of custom header file",
+                                                        "type": "string"
+                                                    }
+                                                ],
+                                                "depends_on": "OPENTHREAD_HEADER_CUSTOM && OPENTHREAD_ENABLED",
+                                                "id": "component-config-openthread-openthread-thread-extensioned-features-use-a-header-file-defined-by-customer-openthread-custom-header-config",
+                                                "title": "OpenThread Custom Header Config",
+                                                "type": "menu"
+                                            }
+                                        ],
+                                        "depends_on": "OPENTHREAD_ENABLED",
+                                        "help": "This option allows users to tailor the values of openthread macros according to their requirements.\nThe openthread submodule contains numerous macros, each with a default value set. In the Kconfig of\nESP openthread, users can set specific openthread parameters, which will be applied for certain\nopenthread macros in the openthread-core-esp32x-xxx-config.h file. During compilation, the values\nspecified in openthread-core-esp32x-xxx-config.h will replace the default settings in the openthread\nsubmodule. However, Kconfig does not cover all openthread macros, particularly those typically\nusing default values. For such macros, users can enable the OPENTHREAD_HEADER_CUSTOM option in the\nKconfig and provide a custom header file. Macros defined in the custom header file will have the\nhighest priority.",
+                                        "id": "OPENTHREAD_HEADER_CUSTOM",
+                                        "name": "OPENTHREAD_HEADER_CUSTOM",
                                         "range": null,
-                                        "title": "No logs",
-                                        "type": "bool"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
-                                        "help": null,
-                                        "id": "OPENTHREAD_LOG_LEVEL_CRIT",
-                                        "name": "OPENTHREAD_LOG_LEVEL_CRIT",
-                                        "range": null,
-                                        "title": "Error logs",
-                                        "type": "bool"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
-                                        "help": null,
-                                        "id": "OPENTHREAD_LOG_LEVEL_WARN",
-                                        "name": "OPENTHREAD_LOG_LEVEL_WARN",
-                                        "range": null,
-                                        "title": "Warning logs",
-                                        "type": "bool"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
-                                        "help": null,
-                                        "id": "OPENTHREAD_LOG_LEVEL_NOTE",
-                                        "name": "OPENTHREAD_LOG_LEVEL_NOTE",
-                                        "range": null,
-                                        "title": "Notice logs",
-                                        "type": "bool"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
-                                        "help": null,
-                                        "id": "OPENTHREAD_LOG_LEVEL_INFO",
-                                        "name": "OPENTHREAD_LOG_LEVEL_INFO",
-                                        "range": null,
-                                        "title": "Info logs",
-                                        "type": "bool"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "<choice OPENTHREAD_LOG_LEVEL>",
-                                        "help": null,
-                                        "id": "OPENTHREAD_LOG_LEVEL_DEBG",
-                                        "name": "OPENTHREAD_LOG_LEVEL_DEBG",
-                                        "range": null,
-                                        "title": "Debug logs",
+                                        "title": "Use a header file defined by customer",
                                         "type": "bool"
                                     }
                                 ],
-                                "depends_on": "OPENTHREAD_ENABLED && !OPENTHREAD_LOG_LEVEL_DYNAMIC",
-                                "help": "Select OpenThread log level.",
-                                "id": "component-config-openthread-openthread-openthread-log-verbosity",
-                                "name": "OPENTHREAD_LOG_LEVEL",
-                                "title": "OpenThread log verbosity",
-                                "type": "choice"
+                                "depends_on": "OPENTHREAD_ENABLED",
+                                "id": "component-config-openthread-openthread-thread-extensioned-features",
+                                "title": "Thread Extensioned Features",
+                                "type": "menu"
                             }
                         ],
                         "depends_on": null,
@@ -28314,631 +28982,37 @@
                             {
                                 "children": [],
                                 "depends_on": null,
-                                "help": null,
-                                "id": "OPENTHREAD_NETWORK_NAME",
-                                "name": "OPENTHREAD_NETWORK_NAME",
+                                "help": "Select this option to enable the OpenThread Radio Spinel for external protocol stack, such as Zigbee.",
+                                "id": "OPENTHREAD_SPINEL_ONLY",
+                                "name": "OPENTHREAD_SPINEL_ONLY",
                                 "range": null,
-                                "title": "OpenThread network name",
-                                "type": "string"
+                                "title": "Enable OpenThread External Radio Spinel feature",
+                                "type": "bool"
                             },
                             {
                                 "children": [],
-                                "depends_on": null,
-                                "help": "A string in the format \"<address>/<plen>\", where `<address>` is an IPv6\naddress and `<plen>` is a prefix length. For example \"fd00:db8:a0:0::/64\"",
-                                "id": "OPENTHREAD_MESH_LOCAL_PREFIX",
-                                "name": "OPENTHREAD_MESH_LOCAL_PREFIX",
-                                "range": null,
-                                "title": "OpenThread mesh local prefix, format <address>/<plen>",
-                                "type": "string"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
+                                "depends_on": "OPENTHREAD_ENABLED || OPENTHREAD_SPINEL_ONLY",
                                 "help": null,
-                                "id": "OPENTHREAD_NETWORK_CHANNEL",
-                                "name": "OPENTHREAD_NETWORK_CHANNEL",
-                                "range": [
-                                    11,
-                                    26
-                                ],
-                                "title": "OpenThread network channel",
+                                "id": "OPENTHREAD_SPINEL_RX_FRAME_BUFFER_SIZE",
+                                "name": "OPENTHREAD_SPINEL_RX_FRAME_BUFFER_SIZE",
+                                "range": null,
+                                "title": "The size of openthread spinel rx frame buffer",
                                 "type": "int"
                             },
                             {
                                 "children": [],
-                                "depends_on": null,
-                                "help": null,
-                                "id": "OPENTHREAD_NETWORK_PANID",
-                                "name": "OPENTHREAD_NETWORK_PANID",
-                                "range": [
-                                    0,
-                                    65534
-                                ],
-                                "title": "OpenThread network pan id",
-                                "type": "hex"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "The OpenThread network extended pan id in hex string format",
-                                "id": "OPENTHREAD_NETWORK_EXTPANID",
-                                "name": "OPENTHREAD_NETWORK_EXTPANID",
+                                "depends_on": "OPENTHREAD_SPINEL_ONLY",
+                                "help": "The maximum number of backoffs the CSMA-CA algorithm will attempt before declaring a channel access\nfailure.",
+                                "id": "OPENTHREAD_SPINEL_MAC_MAX_CSMA_BACKOFFS_DIRECT",
+                                "name": "OPENTHREAD_SPINEL_MAC_MAX_CSMA_BACKOFFS_DIRECT",
                                 "range": null,
-                                "title": "OpenThread extended pan id",
-                                "type": "string"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "The OpenThread network network key in hex string format",
-                                "id": "OPENTHREAD_NETWORK_MASTERKEY",
-                                "name": "OPENTHREAD_NETWORK_MASTERKEY",
-                                "range": null,
-                                "title": "OpenThread network key",
-                                "type": "string"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "The OpenThread pre-shared commissioner key in hex string format",
-                                "id": "OPENTHREAD_NETWORK_PSKC",
-                                "name": "OPENTHREAD_NETWORK_PSKC",
-                                "range": null,
-                                "title": "OpenThread pre-shared commissioner key",
-                                "type": "string"
-                            }
-                        ],
-                        "depends_on": null,
-                        "id": "component-config-openthread-thread-operational-dataset",
-                        "title": "Thread Operational Dataset",
-                        "type": "menu"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED && !OPENTHREAD_LOG_LEVEL_DYNAMIC",
-                        "help": null,
-                        "id": "OPENTHREAD_LOG_LEVEL",
-                        "name": "OPENTHREAD_LOG_LEVEL",
-                        "range": null,
-                        "title": null,
-                        "type": "int"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_RADIO_TYPE>",
-                                "help": "Select this to use the native 15.4 radio.",
-                                "id": "OPENTHREAD_RADIO_NATIVE",
-                                "name": "OPENTHREAD_RADIO_NATIVE",
-                                "range": null,
-                                "title": "Native 15.4 radio",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_RADIO_TYPE>",
-                                "help": "Select this to connect to a Radio Co-Processor via UART.",
-                                "id": "OPENTHREAD_RADIO_SPINEL_UART",
-                                "name": "OPENTHREAD_RADIO_SPINEL_UART",
-                                "range": null,
-                                "title": "Connect via UART",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_RADIO_TYPE>",
-                                "help": "Select this to connect to a Radio Co-Processor via SPI.",
-                                "id": "OPENTHREAD_RADIO_SPINEL_SPI",
-                                "name": "OPENTHREAD_RADIO_SPINEL_SPI",
-                                "range": null,
-                                "title": "Connect via SPI",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_RADIO_TYPE>",
-                                "help": "Select this to disable the Thread radio based on 15.4 link.",
-                                "id": "OPENTHREAD_RADIO_154_NONE",
-                                "name": "OPENTHREAD_RADIO_154_NONE",
-                                "range": null,
-                                "title": "Disable the Thread radio based on 15.4 link",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Configure how OpenThread connects to the 15.4 radio",
-                        "id": "component-config-openthread-config-the-thread-radio-type-with-15-4-link",
-                        "name": "OPENTHREAD_RADIO_TYPE",
-                        "title": "Config the Thread radio type with 15.4 link",
-                        "type": "choice"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_RADIO_TREL",
-                                "help": "Configure the port number of TREL service.",
-                                "id": "OPENTHREAD_TREL_PORT",
-                                "name": "OPENTHREAD_TREL_PORT",
-                                "range": null,
-                                "title": "The port of openthread trel service",
-                                "type": "int"
-                            }
-                        ],
-                        "depends_on": "EXAMPLE_CONNECT_WIFI || EXAMPLE_CONNECT_ETHERNET",
-                        "help": "Select this option to enable Thread Radio Encapsulation Link.",
-                        "id": "OPENTHREAD_RADIO_TREL",
-                        "name": "OPENTHREAD_RADIO_TREL",
-                        "range": null,
-                        "title": "Enable Thread Radio Encapsulation Link (TREL)",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_DEVICE_TYPE>",
-                                "help": "Select this to enable Full Thread Device which can act as router and leader in a Thread network.",
-                                "id": "OPENTHREAD_FTD",
-                                "name": "OPENTHREAD_FTD",
-                                "range": null,
-                                "title": "Full Thread Device",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_DEVICE_TYPE>",
-                                "help": "Select this to enable Minimal Thread Device which can only act as end device in a Thread network.\nThis will reduce the code size of the OpenThread stack.",
-                                "id": "OPENTHREAD_MTD",
-                                "name": "OPENTHREAD_MTD",
-                                "range": null,
-                                "title": "Minimal Thread Device",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_DEVICE_TYPE>",
-                                "help": "Select this to enable Radio Only Device which can only forward 15.4 packets to the host.\nThe OpenThread stack will be run on the host and OpenThread will have minimal footprint on the\nradio only device.",
-                                "id": "OPENTHREAD_RADIO",
-                                "name": "OPENTHREAD_RADIO",
-                                "range": null,
-                                "title": "Radio Only Device",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "OpenThread can be configured to different device types (FTD, MTD, Radio)",
-                        "id": "component-config-openthread-config-the-thread-device-type",
-                        "name": "OPENTHREAD_DEVICE_TYPE",
-                        "title": "Config the Thread device type",
-                        "type": "choice"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_RCP_TRANSPORT>",
-                                "help": "Select this to enable UART connection to host.",
-                                "id": "OPENTHREAD_RCP_UART",
-                                "name": "OPENTHREAD_RCP_UART",
-                                "range": null,
-                                "title": "UART RCP",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice OPENTHREAD_RCP_TRANSPORT>",
-                                "help": "Select this to enable SPI connection to host.",
-                                "id": "OPENTHREAD_RCP_SPI",
-                                "name": "OPENTHREAD_RCP_SPI",
-                                "range": null,
-                                "title": "SPI RCP",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": "OPENTHREAD_RADIO",
-                        "help": null,
-                        "id": "component-config-openthread-the-rcp-transport-type",
-                        "name": "OPENTHREAD_RCP_TRANSPORT",
-                        "title": "The RCP transport type",
-                        "type": "choice"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_ENABLED",
-                                "help": "The OpenThread package name.",
-                                "id": "OPENTHREAD_PACKAGE_NAME",
-                                "name": "OPENTHREAD_PACKAGE_NAME",
-                                "range": null,
-                                "title": "OpenThread package name",
-                                "type": "string"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_ENABLED",
-                                "help": "The OpenThread platform information.",
-                                "id": "OPENTHREAD_PLATFORM_INFO",
-                                "name": "OPENTHREAD_PLATFORM_INFO",
-                                "range": null,
-                                "title": "platform information",
-                                "type": "string"
-                            }
-                        ],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "id": "component-config-openthread-openthread-version-message",
-                        "title": "OpenThread version message",
-                        "type": "menu"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_RADIO",
-                        "help": "Select this to enable OpenThread NCP vendor commands.",
-                        "id": "OPENTHREAD_NCP_VENDOR_HOOK",
-                        "name": "OPENTHREAD_NCP_VENDOR_HOOK",
-                        "range": null,
-                        "title": "Enable vendor command for RCP",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable Command-Line Interface in OpenThread.",
-                        "id": "OPENTHREAD_CLI",
-                        "name": "OPENTHREAD_CLI",
-                        "range": null,
-                        "title": "Enable Openthread Command-Line Interface",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable Diag in OpenThread. This will enable diag mode and a series of diag commands\nin the OpenThread command line. These commands allow users to manipulate low-level features of the storage\nand 15.4 radio.",
-                        "id": "OPENTHREAD_DIAG",
-                        "name": "OPENTHREAD_DIAG",
-                        "range": null,
-                        "title": "Enable diag",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_COMMISSIONER",
-                                "help": null,
-                                "id": "OPENTHREAD_COMM_MAX_JOINER_ENTRIES",
-                                "name": "OPENTHREAD_COMM_MAX_JOINER_ENTRIES",
-                                "range": null,
-                                "title": "The size of max commissioning joiner entries",
-                                "type": "int"
-                            }
-                        ],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable commissioner in OpenThread. This will enable the device to act as a\ncommissioner in the Thread network. A commissioner checks the pre-shared key from a joining device with\nthe Thread commissioning protocol and shares the network parameter with the joining device upon success.",
-                        "id": "OPENTHREAD_COMMISSIONER",
-                        "name": "OPENTHREAD_COMMISSIONER",
-                        "range": null,
-                        "title": "Enable Commissioner",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable Joiner in OpenThread. This allows a device to join the Thread network with a\npre-shared key using the Thread commissioning protocol.",
-                        "id": "OPENTHREAD_JOINER",
-                        "name": "OPENTHREAD_JOINER",
-                        "range": null,
-                        "title": "Enable Joiner",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_SRP_CLIENT",
-                                "help": "Set the max buffer size of service entries in the SRP client service pool.",
-                                "id": "OPENTHREAD_SRP_CLIENT_MAX_SERVICES",
-                                "name": "OPENTHREAD_SRP_CLIENT_MAX_SERVICES",
-                                "range": null,
-                                "title": "Specifies number of service entries in the SRP client service pool",
-                                "type": "int"
-                            }
-                        ],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable SRP Client in OpenThread. This allows a device to register SRP services to SRP\nServer.",
-                        "id": "OPENTHREAD_SRP_CLIENT",
-                        "name": "OPENTHREAD_SRP_CLIENT",
-                        "range": null,
-                        "title": "Enable SRP Client",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable DNS Client in OpenThread.",
-                        "id": "OPENTHREAD_DNS_CLIENT",
-                        "name": "OPENTHREAD_DNS_CLIENT",
-                        "range": null,
-                        "title": "Enable DNS Client",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable border router features in OpenThread.",
-                        "id": "OPENTHREAD_BORDER_ROUTER",
-                        "name": "OPENTHREAD_BORDER_ROUTER",
-                        "range": null,
-                        "title": "Enable Border Router",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_ENABLED && (SPIRAM_USE_CAPS_ALLOC || SPIRAM_USE_MALLOC)",
-                                "help": "Select this option to allocate buffer from PSRAM for Thread",
-                                "id": "OPENTHREAD_MEM_ALLOC_EXTERNAL",
-                                "name": "OPENTHREAD_MEM_ALLOC_EXTERNAL",
-                                "range": null,
-                                "title": "Allocate memory from PSRAM",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_ENABLED && (SPIRAM_USE_CAPS_ALLOC || SPIRAM_USE_MALLOC)",
-                                "help": "If enabled, the message pool is managed by platform defined logic.",
-                                "id": "OPENTHREAD_PLATFORM_MSGPOOL_MANAGEMENT",
-                                "name": "OPENTHREAD_PLATFORM_MSGPOOL_MANAGEMENT",
-                                "range": null,
-                                "title": "Allocate message pool buffer from PSRAM",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": "OPENTHREAD_ENABLED && (SPIRAM_USE_CAPS_ALLOC || SPIRAM_USE_MALLOC)",
-                        "id": "component-config-openthread-thread-memory-allocation-config",
-                        "title": "Thread Memory Allocation Config",
-                        "type": "menu"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": null,
-                        "id": "OPENTHREAD_NUM_MESSAGE_BUFFERS",
-                        "name": "OPENTHREAD_NUM_MESSAGE_BUFFERS",
-                        "range": null,
-                        "title": "The number of openthread message buffers",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED || OPENTHREAD_SPINEL_ONLY",
-                        "help": null,
-                        "id": "OPENTHREAD_SPINEL_RX_FRAME_BUFFER_SIZE",
-                        "name": "OPENTHREAD_SPINEL_RX_FRAME_BUFFER_SIZE",
-                        "range": null,
-                        "title": "The size of openthread spinel rx frame buffer",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED || OPENTHREAD_SPINEL_ONLY",
-                        "help": "The maximum number of backoffs the CSMA-CA algorithm will attempt before declaring a channel access\nfailure.",
-                        "id": "OPENTHREAD_MAC_MAX_CSMA_BACKOFFS_DIRECT",
-                        "name": "OPENTHREAD_MAC_MAX_CSMA_BACKOFFS_DIRECT",
-                        "range": null,
-                        "title": "Maximum backoffs times before declaring a channel access failure.",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": null,
-                        "id": "OPENTHREAD_MLE_MAX_CHILDREN",
-                        "name": "OPENTHREAD_MLE_MAX_CHILDREN",
-                        "range": null,
-                        "title": "The size of max MLE children entries",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": null,
-                        "id": "OPENTHREAD_TMF_ADDR_CACHE_ENTRIES",
-                        "name": "OPENTHREAD_TMF_ADDR_CACHE_ENTRIES",
-                        "range": null,
-                        "title": "The size of max TMF address cache entries",
-                        "type": "int"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_DNS64_CLIENT",
-                                "help": "Set the DNS server IPv4 address.",
-                                "id": "OPENTHREAD_DNS_SERVER_ADDR",
-                                "name": "OPENTHREAD_DNS_SERVER_ADDR",
-                                "range": null,
-                                "title": "DNS server address (IPv4)",
-                                "type": "string"
-                            }
-                        ],
-                        "depends_on": "OPENTHREAD_ENABLED && LWIP_IPV4",
-                        "help": "Select this option to acquire NAT64 address from dns servers.",
-                        "id": "OPENTHREAD_DNS64_CLIENT",
-                        "name": "OPENTHREAD_DNS64_CLIENT",
-                        "range": null,
-                        "title": "Use dns64 client",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Set the OpenThread UART buffer size.",
-                        "id": "OPENTHREAD_UART_BUFFER_SIZE",
-                        "name": "OPENTHREAD_UART_BUFFER_SIZE",
-                        "range": null,
-                        "title": "The uart received buffer size of openthread",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable link metrics feature",
-                        "id": "OPENTHREAD_LINK_METRICS",
-                        "name": "OPENTHREAD_LINK_METRICS",
-                        "range": null,
-                        "title": "Enable link metrics feature",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable mac filter feature",
-                        "id": "OPENTHREAD_MACFILTER_ENABLE",
-                        "name": "OPENTHREAD_MACFILTER_ENABLE",
-                        "range": null,
-                        "title": "Enable mac filter feature",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable CSL feature",
-                        "id": "OPENTHREAD_CSL_ENABLE",
-                        "name": "OPENTHREAD_CSL_ENABLE",
-                        "range": null,
-                        "title": "Enable CSL feature",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": "The device's XTAL accuracy, in ppm.",
-                        "id": "OPENTHREAD_XTAL_ACCURACY",
-                        "name": "OPENTHREAD_XTAL_ACCURACY",
-                        "range": null,
-                        "title": "The accuracy of the XTAL",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_CSL_ENABLE",
-                        "help": "The current accuracy of the clock used for scheduling CSL operations",
-                        "id": "OPENTHREAD_CSL_ACCURACY",
-                        "name": "OPENTHREAD_CSL_ACCURACY",
-                        "range": null,
-                        "title": "The current CSL rx/tx scheduling drift, in units of \u00b1 ppm",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_CSL_ENABLE",
-                        "help": "The fixed uncertainty of the Device for scheduling CSL Transmissions in units of 10 microseconds.",
-                        "id": "OPENTHREAD_CSL_UNCERTAIN",
-                        "name": "OPENTHREAD_CSL_UNCERTAIN",
-                        "range": null,
-                        "title": "The CSL Uncertainty in units of 10 us.",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_CSL_ENABLE",
-                        "help": "Select this option to set rx on when sleep in CSL feature, only for debug",
-                        "id": "OPENTHREAD_CSL_DEBUG_ENABLE",
-                        "name": "OPENTHREAD_CSL_DEBUG_ENABLE",
-                        "range": null,
-                        "title": "Enable CSL debug",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Only used for Thread1.2 certification",
-                        "id": "OPENTHREAD_DUA_ENABLE",
-                        "name": "OPENTHREAD_DUA_ENABLE",
-                        "range": null,
-                        "title": "Enable Domain Unicast Address feature",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_ENABLED",
-                        "help": "Select this option to enable time synchronization feature, the devices in the same Thread network could\nsync to the same network time.",
-                        "id": "OPENTHREAD_TIME_SYNC",
-                        "name": "OPENTHREAD_TIME_SYNC",
-                        "range": null,
-                        "title": "Enable the time synchronization service feature",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "OPENTHREAD_FTD || OPENTHREAD_MTD",
-                        "help": "Select this option to enable the radio statistics feature, you can use radio command to print some radio\nStatistics information.",
-                        "id": "OPENTHREAD_RADIO_STATS_ENABLE",
-                        "name": "OPENTHREAD_RADIO_STATS_ENABLE",
-                        "range": null,
-                        "title": "Enable Radio Statistics feature",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": "Select this option to enable the OpenThread Radio Spinel for external protocol stack, such as Zigbee.",
-                        "id": "OPENTHREAD_SPINEL_ONLY",
-                        "name": "OPENTHREAD_SPINEL_ONLY",
-                        "range": null,
-                        "title": "Enable OpenThread External Radio Spinel feature",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": "Select this option to enable OpenThread radio capability rx on when idle. Do not support this feature when\nSW coexistence is enabled.",
-                        "id": "OPENTHREAD_RX_ON_WHEN_IDLE",
-                        "name": "OPENTHREAD_RX_ON_WHEN_IDLE",
-                        "range": null,
-                        "title": "Enable OpenThread radio capability rx on when idle",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_FTD || OPENTHREAD_MTD",
-                                "help": null,
-                                "id": "OPENTHREAD_ADDRESS_QUERY_TIMEOUT",
-                                "name": "OPENTHREAD_ADDRESS_QUERY_TIMEOUT",
-                                "range": null,
-                                "title": "Timeout value (in seconds) for a address notification response after sending an address query.",
-                                "type": "int"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_FTD || OPENTHREAD_MTD",
-                                "help": null,
-                                "id": "OPENTHREAD_ADDRESS_QUERY_RETRY_DELAY",
-                                "name": "OPENTHREAD_ADDRESS_QUERY_RETRY_DELAY",
-                                "range": null,
-                                "title": "Initial retry delay for address query (in seconds).",
-                                "type": "int"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "OPENTHREAD_FTD || OPENTHREAD_MTD",
-                                "help": null,
-                                "id": "OPENTHREAD_ADDRESS_QUERY_MAX_RETRY_DELAY",
-                                "name": "OPENTHREAD_ADDRESS_QUERY_MAX_RETRY_DELAY",
-                                "range": null,
-                                "title": "Maximum retry delay for address query (in seconds).",
+                                "title": "Maximum backoffs times before declaring a channel access failure.",
                                 "type": "int"
                             }
                         ],
                         "depends_on": null,
-                        "id": "component-config-openthread-thread-address-query-config",
-                        "title": "Thread Address Query Config",
+                        "id": "component-config-openthread-openthread-spinel",
+                        "title": "OpenThread Spinel",
                         "type": "menu"
                     }
                 ],
