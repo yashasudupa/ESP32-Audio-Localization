@@ -1,10 +1,3 @@
-#ifndef I2S_MIC_CAPTURE
-#define I2S_MIC_CAPTURE
-
-// Author: Yashas Nagaraj Udupa
-// Project: Sound locator filter
-// Description: This project captures audio data from an MEMS microphone and fuse the audio data with other sensors'data.
-
 #include <driver/gpio.h>  
 #include "driver/i2c_master.h" 
 #include "driver/i2c.h"
@@ -122,5 +115,3 @@ extern "C" void app_main() {
     ESP_LOGI(TAG, "Starting I2C capture task...");
     xTaskCreate(i2c_capture_task, "I2C Capture Task", 4096, NULL, 1, NULL);
 }
-
-#endif // I2C_MIC_CAPTURE
