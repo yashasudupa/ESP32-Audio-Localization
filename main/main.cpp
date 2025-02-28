@@ -101,6 +101,77 @@ void i2c_capture_task(void *param) {
     }
 }
 
+// --- Initialize UART for Quectel EC25/EG25-G ---
+void init_uart() {
+    uart_config_t uart_config = {
+        .baud_rate = UART_BAUD_RATE,
+        .data_bits = UART_DATA_8_BITS,
+        .parity = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+    };
+
+    uart_param_config(UART_NUM, &uart_config);
+    uart_set_pin(UART_NUM, TX_PIN, RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+    uart_driver_install(UART_NUM, UART_BUFFER_SIZE, UART_BUFFER_SIZE, 0, NULL, 0);
+}
+
+// --- Send AT Command to LTE Module ---
+void send_at_command(const char *cmd) {
+    uart_write_bytes(UART_NUM, cmd, strlen(cmd));
+    uart_write_bytes(UART_NUM, "\r\n", 2);
+}
+
+// --- Read Response from LTE Module ---
+void read_uart_response() {
+    uint8_t data[512];
+    int length = uart_read_bytes(UART_NUM, data, sizeof(data) - 1, pdMS_TO_TICKS(1000));
+    if (length > 0) {
+        data[length] = '\0';
+        ESP_LOGI(TAG, "Response: %s", data);
+    }
+}
+
+// --- LTE Initialization Task ---
+void lte_task(void *param) {
+    ESP_LOGI(TAG, "Initializing LTE...");
+
+    send_at_command("AT");  // Check if the module is responding
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    read_uart_response();
+
+    send_at_command("AT+CPIN?");  // Check SIM card
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    read_uart_response();
+
+    send_at_command("AT+CREG?");  // Check network registration
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    read_uart_response();
+
+    send_at_command("AT+COPS?");  // Check operator
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    read_uart_response();
+
+    send_at_command("AT+CGATT?");  // Check if attached to network
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    read_uart_response();
+
+    send_at_command("AT+CIPSTATUS");  // Check IP connection status
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    read_uart_response();
+
+    send_at_command("AT+QIACT=1");  // Activate PDP context
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    read_uart_response();
+
+    send_at_command("AT+QIOPEN=1,0,\"TCP\",\"www.google.com\",80,0,1");  // Open TCP connection
+    vTaskDelay(pdMS_TO_TICKS(3000));
+    read_uart_response();
+
+    ESP_LOGI(TAG, "LTE Initialization Complete");
+    vTaskDelete(NULL);
+}
+
 // Main application entry point
 extern "C" void app_main() {
     // Initialize I2C interface
@@ -110,6 +181,12 @@ extern "C" void app_main() {
         ESP_LOGE(TAG, "I2C initialization failed");
         return;
     }
+
+    // Initialize LTE UART
+    init_uart();
+
+    // Start LTE Task
+    xTaskCreate(lte_task, "LTE Task", 4096, NULL, 5, NULL)
 
     // Start the task for capturing I2C data
     ESP_LOGI(TAG, "Starting I2C capture task...");
