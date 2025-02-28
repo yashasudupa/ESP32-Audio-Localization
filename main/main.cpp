@@ -17,7 +17,16 @@
 #define SAMPLE_BUFFER_SIZE 512
 int32_t sample_buffer[SAMPLE_BUFFER_SIZE];
 
-// I2C initialization function
+// --- UART Configuration for EC25/EG25-G ---
+#define UART_NUM UART_NUM_1
+#define TX_PIN GPIO_NUM_17
+#define RX_PIN GPIO_NUM_16
+#define UART_BAUD_RATE 115200
+#define UART_BUFFER_SIZE (1024 * 2)
+
+static const char *TAG = "ESP32_4G";
+
+// --- Initialize I2C Master ---
 esp_err_t init_i2c_master() {
     // Configure the I2C master
     i2c_config_t i2c_config = {
@@ -101,21 +110,6 @@ void i2c_capture_task(void *param) {
     }
 }
 
-// --- Initialize UART for Quectel EC25/EG25-G ---
-void init_uart() {
-    uart_config_t uart_config = {
-        .baud_rate = UART_BAUD_RATE,
-        .data_bits = UART_DATA_8_BITS,
-        .parity = UART_PARITY_DISABLE,
-        .stop_bits = UART_STOP_BITS_1,
-        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-    };
-
-    uart_param_config(UART_NUM, &uart_config);
-    uart_set_pin(UART_NUM, TX_PIN, RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-    uart_driver_install(UART_NUM, UART_BUFFER_SIZE, UART_BUFFER_SIZE, 0, NULL, 0);
-}
-
 // --- Send AT Command to LTE Module ---
 void send_at_command(const char *cmd) {
     uart_write_bytes(UART_NUM, cmd, strlen(cmd));
@@ -170,6 +164,21 @@ void lte_task(void *param) {
 
     ESP_LOGI(TAG, "LTE Initialization Complete");
     vTaskDelete(NULL);
+}
+
+// --- Initialize UART for Quectel EC25/EG25-G ---
+void init_uart() {
+    uart_config_t uart_config = {
+        .baud_rate = UART_BAUD_RATE,
+        .data_bits = UART_DATA_8_BITS,
+        .parity = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+    };
+
+    uart_param_config(UART_NUM, &uart_config);
+    uart_set_pin(UART_NUM, TX_PIN, RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+    uart_driver_install(UART_NUM, UART_BUFFER_SIZE, UART_BUFFER_SIZE, 0, NULL, 0);
 }
 
 // Main application entry point
