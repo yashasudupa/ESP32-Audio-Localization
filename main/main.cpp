@@ -4,6 +4,8 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <esp_log.h>
+#include "driver/uart.h"
+#include <string.h>
 
 // I2C pin configuration
 #define I2C_SCL_PIN GPIO_NUM_42   // I2C clock (SCL) pin
@@ -27,7 +29,7 @@ int32_t sample_buffer[SAMPLE_BUFFER_SIZE];
 static const char *TAG = "ESP32_4G";
 
 // --- Initialize I2C Master ---
-esp_err_t init_i2c_master() {
+void init_i2c_master() {
     // Configure the I2C master
     i2c_config_t i2c_config = {
         .mode = I2C_MODE_MASTER,
@@ -42,18 +44,13 @@ esp_err_t init_i2c_master() {
         .dev_addr_length = I2C_ADDR_BIT_LEN_7,
         .device_address = 0x54,
         .scl_speed_hz = 400000,
-    }
+    };
 
     // Initialize I2C master configuration
-    esp_err_t err = i2c_param_config(I2C_NUM_0, &i2c_config);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "I2C configuration failed");
-        return err;
-    }
+    i2c_param_config(I2C_NUM_0, &i2c_config);
 
     // Install the I2C driver
-    err = i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0);
-    return err;
+    i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0);
 }
 
 // Function to read microphone data via I2C
@@ -185,17 +182,13 @@ void init_uart() {
 extern "C" void app_main() {
     // Initialize I2C interface
     ESP_LOGI(TAG, "Initializing I2C master...");
-    esp_err_t err = init_i2c_master();
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "I2C initialization failed");
-        return;
-    }
+    init_i2c_master();
 
     // Initialize LTE UART
     init_uart();
 
     // Start LTE Task
-    xTaskCreate(lte_task, "LTE Task", 4096, NULL, 5, NULL)
+    xTaskCreate(lte_task, "LTE Task", 4096, NULL, 5, NULL);
 
     // Start the task for capturing I2C data
     ESP_LOGI(TAG, "Starting I2C capture task...");
