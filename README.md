@@ -1,6 +1,6 @@
 # Sound locator filter
 
-![image](https://github.com/user-attachments/assets/26164a98-a858-4ceb-81aa-e4b55f8b16eb)
+![compressed_motion_image](https://github.com/user-attachments/assets/0d347980-7a37-4b01-86e5-27b85cadcf92)
 
 The goal of this project is to design and implement a power-efficient, multi-sensor fusion system on ESP32 that combines radar and audio data for enhanced environmental monitoring. The system integrates 4G/5G wireless communication and focuses on object detection and classification using advanced signal processing techniques on a DSP processor.
 
