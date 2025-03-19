@@ -187,6 +187,11 @@ extern "C" void app_main() {
     // Initialize LTE UART
     init_uart();
 
+    //TODO
+    //Generate dummy radar and noise measurements,
+    //implement noise filter and sensor fusion logic,
+    //and display scatter plots
+    
     // Start LTE Task
     xTaskCreate(lte_task, "LTE Task", 4096, NULL, 5, NULL);
 
