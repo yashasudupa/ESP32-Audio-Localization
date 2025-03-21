@@ -6,6 +6,8 @@
 #include <esp_log.h>
 #include "driver/uart.h"
 #include <string.h>
+#include <math.h>
+#include "kalman_filter.h"
 
 // I2C pin configuration
 #define I2C_SCL_PIN GPIO_NUM_42   // I2C clock (SCL) pin
@@ -26,7 +28,7 @@ int32_t sample_buffer[SAMPLE_BUFFER_SIZE];
 #define UART_BAUD_RATE 115200
 #define UART_BUFFER_SIZE (1024 * 2)
 
-static const char *TAG = "ESP32_4G";
+static const char *TAG = "ESP32_Kalman";
 
 // --- Initialize I2C Master ---
 void init_i2c_master() {
@@ -178,6 +180,16 @@ void init_uart() {
     uart_driver_install(UART_NUM, UART_BUFFER_SIZE, UART_BUFFER_SIZE, 0, NULL, 0);
 }
 
+void sensor_fusion_task(void *param) {
+    while (true) {
+        float radar_measurement = generate_radar_measurement();
+        float sound_measurement = generate_sound_measurement();
+        float fused_measurement = (radar_measurement + sound_measurement) / 2.0;
+        kalman_filter(fused_measurement);
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
+
 // Main application entry point
 extern "C" void app_main() {
     // Initialize I2C interface
@@ -187,15 +199,13 @@ extern "C" void app_main() {
     // Initialize LTE UART
     init_uart();
 
-    //TODO
-    //Generate dummy radar and noise measurements,
-    //implement noise filter and sensor fusion logic,
-    //and display scatter plots
-    
     // Start LTE Task
     xTaskCreate(lte_task, "LTE Task", 4096, NULL, 5, NULL);
 
     // Start the task for capturing I2C data
     ESP_LOGI(TAG, "Starting I2C capture task...");
     xTaskCreate(i2c_capture_task, "I2C Capture Task", 4096, NULL, 1, NULL);
+
+    xTaskCreate(sensor_fusion_task, "Sensor Fusion Task", 4096, NULL, 1, NULL);
+    
 }
