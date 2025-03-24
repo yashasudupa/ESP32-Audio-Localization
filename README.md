@@ -12,11 +12,9 @@ Multi-Sensor Fusion
 Wireless Communication
 - Interface Quectel EC25/EG25-G (4G LTE) for 4G/5G connectivity for remote data transmission and real-time monitoring.
 
-Advanced Signal Processing
-- Implementation on a DSP processor (e.g., Analog Devices ADSP-BF70x series) to detect and classify objects with high accuracy.
+Sensors data processing
 - Advanced noise cancellation and sound synthesis for improved audio analysis and detection.
-
-Kalman Filter
+- ESP32: Collects sensor data, applies a Kalman filter, and forwards preprocessed data. (No image classification or heavy signal processing on ESP32).
 - Incorporate Kalman filter algorithms for precise tracking, noise reduction, and accurate estimation of object states using radar and audio data.
 
 Actuators
