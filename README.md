@@ -14,7 +14,7 @@ Wireless Communication
 
 Sensors data processing
 - Advanced noise cancellation and sound synthesis for improved audio analysis and detection.
-- ESP32: Collects sensor data, applies a Kalman filter, and forwards preprocessed data. (No image classification or heavy signal processing on ESP32).
+- ESP32: Collects sensor data, applies a Kalman filter, and forwards preprocessed data. (No image classification, heat maps or heavy signal processing on ESP32).
 - Incorporate Kalman filter algorithms for precise tracking, noise reduction, and accurate estimation of object states using radar and audio data.
 
 Actuators
