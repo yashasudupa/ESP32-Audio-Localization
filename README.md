@@ -2,7 +2,7 @@
 
 ![image](https://github.com/user-attachments/assets/7a0e1f4a-c19f-4895-93ae-e880d86f8ce6)
 
-The goal of this project is to design and implement a power-efficient, multi-sensor fusion system on ESP32 that combines radar and audio data for enhanced environmental monitoring. The system integrates 4G/5G wireless communication and focuses on object detection and classification using advanced signal processing techniques on a DSP processor.
+The goal of this project is to design and implement a power-efficient, multi-sensor fusion system on ESP32 that combines radar and audio data for enhanced environmental monitoring. The system integrates 4G/5G wireless communication and focuses on pre-processing of sensors' data.
 
 Multi-Sensor Fusion
 - Integration of radar sensors (e.g., Infineon BGT60LTR11AIP, Texas Instruments IWR6843) for robust object detection and tracking.
