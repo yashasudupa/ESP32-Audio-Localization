@@ -13,9 +13,6 @@ The goal of this project is to design and implement a power-efficient, multi-sen
    ├── main/
    │   ├── CMakeLists.txt      ← CMake for main app
    │   ├── main.cpp
-   │   ├── sound_processor.cpp
-   │   ├── radar_filter.cpp
-   │   └── sound_processor.hpp
    └── README.md
 ```
 
