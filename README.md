@@ -65,8 +65,6 @@ The goal of this project is to design and implement a power-efficient, multi-sen
 6. Build and Flash:
    - To build the project, open the VSCode command palette and run ESP-IDF: Build.
    - To flash the ESP32, run ESP-IDF: Flash.
-7. Build and Flash:
-   - To build the project, open the VSCode command palette and run ESP-IDF: Build.
 
 ## Serial Monitor Output (ESP32 Boot + Task Logs)
    ```yaml   
@@ -101,7 +99,6 @@ The goal of this project is to design and implement a power-efficient, multi-sen
    ```
 
 ## RTOS Task Snapshot (Simulated via VS Code Console/Terminal)
-
    ```Plaintext   
    Task            Status  Core  Priority  Stack   Task Num
    ----------------------------------------------------------
@@ -111,3 +108,5 @@ The goal of this project is to design and implement a power-efficient, multi-sen
    Sensor Fusion   Ready      1     1       2800    3
    IDLE0           Ready      0     0       2048    4
    IDLE1           Ready      1     0       2048    5
+```
+   Above snapshot can be obtained using vTaskList() and uxTaskGetSystemState() inside a shell or printed task stats.
