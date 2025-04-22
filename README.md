@@ -5,17 +5,19 @@
 The goal of this project is to design and implement a power-efficient, multi-sensor fusion system on ESP32 that combines radar and audio data for enhanced environmental monitoring. The system integrates 4G/5G wireless communication and focuses on pre-processing of sensors' data.
 
 ## Project Structure
-sound-locator-filter/
-├── CMakeLists.txt          ← Top-level CMake
-├── sdkconfig.defaults      ← Optional ESP-IDF default config
-├── components/             ← Optional, for custom components
-├── main/
-│   ├── CMakeLists.txt      ← CMake for main app
-│   ├── main.cpp
-│   ├── sound_processor.cpp
-│   ├── radar_filter.cpp
-│   └── sound_processor.hpp
-└── README.md
+```css
+   sound-locator-filter/
+   ├── CMakeLists.txt          ← Top-level CMake
+   ├── sdkconfig.defaults      ← Optional ESP-IDF default config
+   ├── components/             ← Optional, for custom components
+   ├── main/
+   │   ├── CMakeLists.txt      ← CMake for main app
+   │   ├── main.cpp
+   │   ├── sound_processor.cpp
+   │   ├── radar_filter.cpp
+   │   └── sound_processor.hpp
+   └── README.md
+```
 
 ## Hardware Components:
 - **Radar Sensors**: Infineon BGT60LTR11AIP, Texas Instruments IWR6843
