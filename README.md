@@ -9,7 +9,7 @@ The goal of this project is to design and implement a power-efficient, multi-sen
    sound-locator-filter/
    ├── CMakeLists.txt          ← Top-level CMake
    ├── sdkconfig.defaults      ← Optional ESP-IDF default config
-   ├── components/             ← Optional, for custom components
+   ├── components/             ← Custom components
    ├── main/
    │   ├── CMakeLists.txt      ← CMake for main app
    │   ├── main.cpp
