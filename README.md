@@ -4,22 +4,26 @@
 
 The goal of this project is to design and implement a power-efficient, multi-sensor fusion system on ESP32 that combines radar and audio data for enhanced environmental monitoring. The system integrates 4G/5G wireless communication and focuses on pre-processing of sensors' data.
 
-Multi-Sensor Fusion
-- Integration of radar sensors (e.g., Infineon BGT60LTR11AIP, Texas Instruments IWR6843) for robust object detection and tracking.
-- Incorporation of MEMS microphones (e.g., INMP441, SPH0645LM4H) for high-sensitivity audio capture.
-- Use of environmental sensors (e.g., Bosch BME280) for monitoring temperature, humidity, and pressure to provide contextual environmental data.
+Hardware Components:
+- **Radar Sensors**: Infineon BGT60LTR11AIP, Texas Instruments IWR6843
+- **Audio Sensors**: INMP441, SPH0645LM4H (MEMS Microphones)
+- **Environmental Sensors**: Bosch BME280 (Temperature, Humidity, Pressure)
+- **Wireless Communication**: Quectel EC25/EG25-G (4G LTE)
+- **Actuators**: Miniature Mylar Speakers, LRA Motors (Vibratory actuators)
 
-Wireless Communication
-- Interface Quectel EC25/EG25-G (4G LTE) for 4G/5G connectivity for remote data transmission and real-time monitoring.
+## Software Setup for VSCode
 
-Sensors data processing
-- Advanced noise cancellation and sound synthesis for improved audio analysis and detection.
-- ESP32: Collects sensor data, applies a Kalman filter, and forwards preprocessed data. (No image classification, heat maps or heavy signal processing on ESP32).
-- Incorporate Kalman filter algorithms for precise tracking, noise reduction, and accurate estimation of object states using radar and audio data.
+### Prerequisites:
+1. **VSCode**: Install Visual Studio Code from [here](https://code.visualstudio.com/).
+2. **ESP32 Toolchain**: Follow these instructions to set up the ESP32 toolchain:
+   - [ESP32 setup on Windows](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/windows.html)
+   - [ESP32 setup on Linux/macOS](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos.html)
+3. **Install Extensions**:
+   - ESP-IDF: Install the `Espressif IDF` extension from the VSCode marketplace.
+   - CMake Tools: Install the `CMake` extension for CMake integration.
 
-Actuators
-- Speakers (e.g., Miniature Mylar Speakers) for sound synthesis and audio playback.
-- Vibratory actuators (e.g., LRA Motors) for haptic feedback and environmental alerts.
-
-Power Efficiency
-- Optimization of firmware for low-power consumption.
+### Setting Up the Project in VSCode:
+1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/yourusername/multi-sensor-fusion-esp32.git
+   cd multi-sensor-fusion-esp32
