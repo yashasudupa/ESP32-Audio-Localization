@@ -58,12 +58,56 @@ The goal of this project is to design and implement a power-efficient, multi-sen
                        INCLUDE_DIRS "." "include")
    ```
    Place headers in an include/ directory if needed.
-2. Open the project folder in VSCode.
-3. Configure ESP32 Settings:
+4. Open the project folder in VSCode.
+5. Configure ESP32 Settings:
    - In the VSCode command palette, run ESP-IDF: Configure ESP-IDF.
    - Follow the prompts to select the ESP32 toolchain and the appropriate target device.
-4. Build and Flash:
+6. Build and Flash:
    - To build the project, open the VSCode command palette and run ESP-IDF: Build.
    - To flash the ESP32, run ESP-IDF: Flash.
-5. Build and Flash:
+7. Build and Flash:
    - To build the project, open the VSCode command palette and run ESP-IDF: Build.
+
+## Serial Monitor Output (ESP32 Boot + Task Logs)
+   ```yaml   
+   I (0) cpu_start: App cpu up.
+   I (436) heap_init: Initializing. RAM available for dynamic allocation...
+   I (555) ESP32_Kalman: Initializing I2C master...
+   I (560) ESP32_Kalman: Starting I2C capture task...
+   I (562) ESP32_Kalman: Initializing LTE...
+   I (1562) ESP32_Kalman: Response: OK
+   I (2562) ESP32_Kalman: Response: +CPIN: READY
+   I (3562) ESP32_Kalman: Response: +CREG: 0,1
+   I (4562) ESP32_Kalman: Response: +COPS: 0,0,"Airtel",7
+   I (5562) ESP32_Kalman: Response: +CGATT: 1
+   I (6562) ESP32_Kalman: Response: OK
+   I (7562) ESP32_Kalman: Response: OK
+   I (10562) ESP32_Kalman: Response: OK
+   I (10564) ESP32_Kalman: LTE Initialization Complete
+   
+   I (10600) ESP32_Kalman: Sample[0]: 30512
+   I (10601) ESP32_Kalman: Sample[1]: 29874
+   ...
+   I (10620) ESP32_Kalman: Sample[511]: 31209
+   
+   I (10630) ESP32_Kalman: Sample[0]: 31005
+   I (10631) ESP32_Kalman: Sample[1]: 30677
+   ...
+   I (10650) ESP32_Kalman: Sample[511]: 29584
+   
+   // Sensor fusion logs (every 500ms)
+   I (11000) ESP32_Kalman: Radar: 4.53, Sound: 3.88, Fused: 4.21
+   I (11500) ESP32_Kalman: Radar: 5.04, Sound: 4.65, Fused: 4.85
+   ```
+
+## RTOS Task Snapshot (Simulated via VS Code Console/Terminal)
+
+   ```Plaintext   
+   Task            Status  Core  Priority  Stack   Task Num
+   ----------------------------------------------------------
+   main            Running    0     1       3000    0
+   LTE Task        Ready      1     5       2300    1
+   I2C Capture     Ready      0     1       2800    2
+   Sensor Fusion   Ready      1     1       2800    3
+   IDLE0           Ready      0     0       2048    4
+   IDLE1           Ready      1     0       2048    5
