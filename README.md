@@ -37,7 +37,7 @@ The goal of this project is to design and implement a power-efficient, multi-sen
 ### Setting Up the Project in VSCode:
 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/yourusername/sound-locator-filter.git
+   git clone https://github.com/yashasudupa/sound-locator-filter.git
    cd sound-locator-filter
 2. Modify CMakeLists.txt in the main Component. Edit your CMakeLists.txt file inside the main directory and update the SRCS list to include multiple source files:
    ```CMake
