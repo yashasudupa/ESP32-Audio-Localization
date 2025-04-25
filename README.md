@@ -1,8 +1,8 @@
-# Sound locator filter
+# ESP32 Audio Localization
 
 ![image](https://github.com/user-attachments/assets/7a0e1f4a-c19f-4895-93ae-e880d86f8ce6)
 
-The goal of this project is to design and implement a power-efficient, multi-sensor fusion system on ESP32 that combines radar and audio data for enhanced environmental monitoring. The system integrates 4G/5G wireless communication and focuses on pre-processing of sensors' data.
+The goal of this project is to design and implement a power-efficient, audio localization on ESP32 that combines radar and audio data for enhanced environmental monitoring. The system integrates 4G/5G wireless communication and focuses on pre-processing of sensors' data.
 
 ## Project Structure
 ```css
